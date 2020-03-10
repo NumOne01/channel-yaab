@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Chip, SearchBox, Card, Expansion, Cards } from '../../components/UI'
+import { Chip, SearchBox, Expansion, Cards } from '../../components/UI'
 import classes from './MainPage.module.css'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
 
