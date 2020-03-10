@@ -6,11 +6,7 @@ const Cards = props => {
 	return (
 		<div className={classes.Cards}>
 			{props.data.map(item => (
-				<Card
-					heading={item.heading}
-					body={item.body}
-					buttons={item.buttons}
-				/>
+				<Card heading={item.heading} body={item.body} />
 			))}
 		</div>
 	)

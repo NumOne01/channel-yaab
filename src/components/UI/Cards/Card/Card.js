@@ -43,11 +43,9 @@ export default function MediaCard(props) {
 				</CardContent>
 			</CardActionArea>
 			<CardActions>
-				{props.buttons.map(button => (
-					<Button size="small" color="primary">
-						{button.name}
-					</Button>
-				))}
+				<Button size="small" color="primary">
+					اشتراک گذاری
+				</Button>
 			</CardActions>
 		</Card>
 	)

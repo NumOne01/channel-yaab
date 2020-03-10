@@ -1,138 +1,29 @@
 import React, { Component } from 'react'
-import { Chip, SearchBox, Expansion, Cards } from '../../components/UI'
+import {
+	Chip,
+	SearchBox,
+	Expansion,
+	Cards,
+	CheckBoxes
+} from '../../components/UI'
 import classes from './MainPage.module.css'
-import { Checkbox, FormControlLabel } from '@material-ui/core'
+import { database } from 'firebase'
 
-const ExpansionData = [
-	{
-		heading: 'دسته بندی ها',
-		body: (
-			<form className={classes.checkBoxes}>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="sargarmi"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="سرگرمی"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="ashpazi"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="آشپزی"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="varzeshi"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="ورزشی"
-				/>
-			</form>
-		)
-	},
-	{
-		heading: 'بر اساس شبکه اجتماعی',
-		body: (
-			<form className={classes.checkBoxes}>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="Telegram"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="تلگرام"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="Instagram"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="اینستاگرام"
-				/>
-			</form>
-		)
-	},
-	{
-		heading: 'مرتب سازی بر اساس',
-		body: (
-			<form className={classes.checkBoxes}>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="jadidtarin"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="جدیدترین"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							value="portarafdartarin"
-							inputProps={{ 'aria-label': 'Checkbox A' }}
-							color="primary"
-						/>
-					}
-					label="پرطرفدارترین"
-				/>
-			</form>
-		)
-	}
+const collectionsTag = [
+	{ label: 'ورزشی', value: 'varzeshi' },
+	{ label: 'سرگرمی', value: 'sargarmi' },
+	{ label: 'آشپزی', value: 'ashpazi' },
+	{ label: 'آموزشی', value: 'amoozehsi' }
 ]
 
-const CardsData = [
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
-	{
-		heading: 'گیزمیز',
-		body: 'کانال طنز و سرگرمی',
-		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	}
+const socialMediaTags = [
+	{ label: 'اینستاگرام', value: 'instagram' },
+	{ label: 'تلگرام', value: 'telegram' }
+]
+
+const sortingTags = [
+	{ label: 'پرطرفدارترین', value: 'portarafdar' },
+	{ label: 'جدیدترین', value: 'jadid' }
 ]
 
 const ChipData = [
@@ -143,16 +34,100 @@ const ChipData = [
 ]
 
 export default class MainPage extends Component {
+	state = {
+		posts: [],
+		filters: []
+	}
+
+	componentDidMount() {
+		database()
+			.ref('/posts')
+			.on('value', snapshot => {
+				const posts = []
+				const val = snapshot.val()
+				for (let key in val) posts.push({ ...val[key], key })
+				this.posts = posts
+				this.setState({ posts })
+			})
+	}
+
+	ExpansionData = [
+		{
+			heading: 'دسته بندی ها',
+			body: (
+				<form className={classes.checkBoxes}>
+					<CheckBoxes
+						data={collectionsTag}
+						changed={event =>
+							this.onChangeFilter(
+								event.target.value,
+								event.target.checked
+							)
+						}
+					/>
+				</form>
+			)
+		},
+		{
+			heading: 'بر اساس شبکه اجتماعی',
+			body: (
+				<form className={classes.checkBoxes}>
+					<CheckBoxes
+						data={socialMediaTags}
+						changed={event =>
+							this.onChangeFilter(
+								event.target.value,
+								event.target.checked
+							)
+						}
+					/>
+				</form>
+			)
+		},
+		{
+			heading: 'مرتب سازی بر اساس',
+			body: (
+				<form className={classes.checkBoxes}>
+					<CheckBoxes
+						data={sortingTags}
+						changed={event =>
+							this.onChangeFilter(
+								event.target.value,
+								event.target.checked
+							)
+						}
+					/>
+				</form>
+			)
+		}
+	]
+
+	onChangeFilter = (filter, checked) => {
+		const filters = checked
+			? this.state.filters.concat(filter)
+			: this.state.filters.filter(filterName => filterName !== filter)
+		const posts =
+			filters.length > 0
+				? this.posts.filter(post =>
+						filters.some(
+							filterName => post.tags.indexOf(filterName) >= 0
+						)
+				  )
+				: this.posts
+		this.setState({ filters, posts })
+	}
+
 	render() {
+		const { posts } = this.state
 		return (
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
 					<SearchBox />
 					<Chip data={ChipData} />
-					<Cards data={CardsData} />
+					{posts && <Cards data={posts} />}
 				</div>
 				<div className={classes.Expansion}>
-					<Expansion data={ExpansionData} />
+					<Expansion data={this.ExpansionData} />
 				</div>
 			</div>
 		)
