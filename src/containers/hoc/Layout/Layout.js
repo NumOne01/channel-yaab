@@ -1,10 +1,11 @@
 import React from 'react'
 import ButtonAppBar from '../../../components/Navigation/AppBar/AppBar'
 
-const Layout = () => {
+const Layout = props => {
 	return (
 		<div>
 			<ButtonAppBar />
+			{props.children}
 		</div>
 	)
 }
