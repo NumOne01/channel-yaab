@@ -28,12 +28,15 @@ export default function SimpleExpansionPanel(props) {
 						aria-controls={`panel${index}-content`}
 						id={`panel${index}-header`}
 					>
-						<Typography className={classes.heading}>
+						<Typography
+							className={classes.heading}
+							component="span"
+						>
 							{item.heading}
 						</Typography>
 					</ExpansionPanelSummary>
 					<ExpansionPanelDetails>
-						<Typography>{item.body}</Typography>
+						<Typography component="span">{item.body}</Typography>
 					</ExpansionPanelDetails>
 				</ExpansionPanel>
 			))}

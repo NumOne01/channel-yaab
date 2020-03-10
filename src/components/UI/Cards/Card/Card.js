@@ -36,7 +36,7 @@ export default function MediaCard(props) {
 					<Typography
 						variant="body2"
 						color="textSecondary"
-						component="p"
+						component="span"
 					>
 						{props.body}
 					</Typography>

@@ -6,7 +6,7 @@ import {
 	FormControlLabel
 } from '@material-ui/core'
 import classes from './NewPost.module.css'
-import { database } from 'firebase'
+import { database } from 'firebase/app'
 import Spinner from '../../components/UI/Spinner/Spinner'
 
 const tags = [
@@ -31,10 +31,8 @@ export default function BasicTextFields(props) {
 
 	const submitPost = () => {
 		const taged = []
-		for (let key in tagsRef) {
-			console.log(tagsRef[key].current, tagsRef[key].current.checked)
+		for (let key in tagsRef)
 			if (tagsRef[key].current.checked) taged.push(key)
-		}
 
 		setLoading(true)
 		setError(null)

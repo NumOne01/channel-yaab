@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import reducers from './store/reducers'
 import { createStore } from 'redux'
-import { initializeApp } from 'firebase'
+import { initializeApp } from 'firebase/app'
 
 initializeApp({
 	apiKey: 'AIzaSyB3MXTR-6v_k07r77FXrIfeB9EPbrHigqQ',

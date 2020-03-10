@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Chip from '@material-ui/core/Chip'
 import Paper from '@material-ui/core/Paper'
-import TagFacesIcon from '@material-ui/icons/TagFaces'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -19,25 +18,14 @@ const useStyles = makeStyles(theme => ({
 export default function ChipsArray(props) {
 	const classes = useStyles()
 
-	const handleDelete = chipToDelete => () => {
-		// setChipData(chips =>
-		// 	chips.filter(chip => chip.key !== chipToDelete.key)
-		// )
-	}
+	const handleDelete = chipToDelete => () => {}
 
 	return (
 		<Paper className={classes.root}>
 			{props.data.map(data => {
-				let icon
-
-				if (data.label === 'React') {
-					icon = <TagFacesIcon />
-				}
-
 				return (
 					<Chip
-						key={data.key}
-						icon={icon}
+						key={data.label}
 						label={data.label}
 						onDelete={
 							data.label === 'React'
