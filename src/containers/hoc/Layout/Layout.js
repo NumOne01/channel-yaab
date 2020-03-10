@@ -1,13 +1,20 @@
 import React from 'react'
-import ButtonAppBar from '../../../components/Navigation/AppBar/AppBar'
+import AppBar from '../../../components/Navigation/AppBar/AppBar'
+import { connect } from 'react-redux'
 
 const Layout = props => {
 	return (
 		<div>
-			<ButtonAppBar />
+			<AppBar isAuthenticated={props.isAuthenticated} />
 			{props.children}
 		</div>
 	)
 }
 
-export default Layout
+const mapStateToProps = ({ auth }) => {
+	return {
+		isAuthenticated: auth.user ? true : false
+	}
+}
+
+export default connect(mapStateToProps)(Layout)

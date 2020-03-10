@@ -4,17 +4,28 @@ import MainPage from './containers/MainPage/MainPage'
 import { Switch, Route } from 'react-router-dom'
 import NewPost from './containers/NewPost/NewPost'
 import Login from './containers/SignIn/Signin'
+import { connect } from 'react-redux'
 
-function App() {
+function App(props) {
 	return (
 		<Layout>
 			<Switch>
-				<Route path="/new-post" component={NewPost} />
-				<Route path="/login" component={Login} />
+				<Route
+					path="/new-post"
+					component={props.isAuthenticated ? NewPost : Login}
+				/>
+				<Route
+					path="/login"
+					component={props.isAuthenticated ? '/' : Login}
+				/>
 				<Route path="/" component={MainPage} />
 			</Switch>
 		</Layout>
 	)
 }
 
-export default App
+const mapStateToProps = ({ auth }) => {
+	return { isAuthenticated: auth.user ? true : false }
+}
+
+export default connect(mapStateToProps)(App)

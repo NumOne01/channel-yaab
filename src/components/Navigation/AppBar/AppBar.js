@@ -21,15 +21,10 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function MenuAppBar() {
+export default function MenuAppBar(props) {
 	const classes = useStyles()
-	const [auth] = React.useState(true)
 	const [anchorEl, setAnchorEl] = React.useState(null)
 	const open = Boolean(anchorEl)
-
-	// const handleChange = event => {
-	// 	setAuth(event.target.checked)
-	// }
 
 	const handleMenu = event => {
 		setAnchorEl(event.currentTarget)
@@ -43,10 +38,16 @@ export default function MenuAppBar() {
 		<div className={classes.root}>
 			<AppBar position="static">
 				<Toolbar>
-					<Typography variant="h6" className={classes.title} component="span">
-						<NavigationItems />
+					<Typography
+						variant="h6"
+						className={classes.title}
+						component="span"
+					>
+						<NavigationItems
+							isAuthenticated={props.isAuthenticated}
+						/>
 					</Typography>
-					{auth && (
+					{props.isAuthenticated && (
 						<div>
 							<IconButton
 								aria-label="account of current user"
