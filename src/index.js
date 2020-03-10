@@ -6,8 +6,9 @@ import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import reducers from './store/reducers'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import { initializeApp } from 'firebase/app'
+import thunk from 'redux-thunk'
 
 initializeApp({
 	apiKey: 'AIzaSyB3MXTR-6v_k07r77FXrIfeB9EPbrHigqQ',
@@ -20,7 +21,7 @@ initializeApp({
 	measurementId: 'G-T63C8DH6FH'
 })
 
-const store = createStore(reducers)
+const store = createStore(reducers, applyMiddleware(thunk))
 
 ReactDOM.render(
 	<Provider store={store}>

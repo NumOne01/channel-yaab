@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -12,6 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
+import { login, signup } from '../../store/actions/auth'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
+import Spinner from '../../components/UI/Spinner/Spinner'
 
 function Copyright() {
 	return (
@@ -46,10 +50,20 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function SignIn() {
+function SignIn(props) {
 	const classes = useStyles()
-
-	return (
+	const [isLogin, setIsLogin] = useState(true)
+	const emalInput = useRef()
+	const passwordInput = useRef()
+	const submit = event => {
+		event.preventDefault()
+		if (isLogin)
+			props.login(emalInput.current.value, passwordInput.current.value)
+		else props.signup(emalInput.current.value, passwordInput.current.value)
+	}
+	return props.user ? (
+		<Redirect to="/" />
+	) : (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
 			<div className={classes.paper}>
@@ -57,9 +71,9 @@ export default function SignIn() {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					Sign in
+					{isLogin ? 'Sign in' : 'Sign up'}
 				</Typography>
-				<form className={classes.form} noValidate>
+				<form className={classes.form} noValidate onSubmit={submit}>
 					<TextField
 						variant="outlined"
 						margin="normal"
@@ -70,6 +84,7 @@ export default function SignIn() {
 						name="email"
 						autoComplete="email"
 						autoFocus
+						inputRef={emalInput}
 					/>
 					<TextField
 						variant="outlined"
@@ -81,30 +96,44 @@ export default function SignIn() {
 						type="password"
 						id="password"
 						autoComplete="current-password"
+						inputRef={passwordInput}
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}
 						label="Remember me"
 					/>
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Sign In
-					</Button>
+					<p>{props.error && props.error.message}</p>
+					{props.loading ? (
+						<Spinner />
+					) : (
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={classes.submit}
+						>
+							{isLogin ? 'Sign in' : 'Sign up'}
+						</Button>
+					)}
 					<Grid container>
 						<Grid item xs>
-							<Link href="#" variant="body2">
-								Forgot password?
-							</Link>
+							Forgot password?
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2">
-								{"Don't have an account? Sign Up"}
-							</Link>
+							{isLogin ? (
+								<span
+									onClick={() => setIsLogin(state => !state)}
+								>
+									Don't have an account? Sign Up
+								</span>
+							) : (
+								<span
+									onClick={() => setIsLogin(state => !state)}
+								>
+									Already have an account? Sign In
+								</span>
+							)}
 						</Grid>
 					</Grid>
 				</form>
@@ -115,3 +144,9 @@ export default function SignIn() {
 		</Container>
 	)
 }
+
+const mapStateToProps = ({ auth }) => {
+	return { loading: auth.loading, error: auth.error, user: auth.user }
+}
+
+export default connect(mapStateToProps, { login, signup })(SignIn)
