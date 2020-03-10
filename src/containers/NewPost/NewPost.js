@@ -1,22 +1,27 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import TextField from '@material-ui/core/TextField'
-
-const useStyles = makeStyles(theme => ({
-	root: {
-		'& > *': {
-			margin: theme.spacing(1),
-			width: 200
-		}
-	}
-}))
+import { TextField, Button } from '@material-ui/core'
+import classes from './NewPost.module.css'
 
 export default function BasicTextFields() {
-	const classes = useStyles()
-
 	return (
-		<form className={classes.root} noValidate autoComplete="off">
-			<TextField id="standard-basic" label="Standard" />
+		<form className={classes.NewPost} noValidate autoComplete="off">
+			<TextField
+				id="standard-basic"
+				label="عنوان"
+				className={classes.Input}
+			/>
+			<TextField
+				id="standard-basic"
+				label="توضیحات"
+				className={classes.Input}
+			/>
+			<Button
+				variant="contained"
+				color="primary"
+				className={classes.SubmitButton}
+			>
+				Submit
+			</Button>
 		</form>
 	)
 }
