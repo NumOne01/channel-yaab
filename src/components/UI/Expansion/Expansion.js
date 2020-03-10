@@ -22,7 +22,7 @@ export default function SimpleExpansionPanel(props) {
 	return (
 		<div className={classes.root}>
 			{props.data.map((item, index) => (
-				<ExpansionPanel>
+				<ExpansionPanel key={item + index}>
 					<ExpansionPanelSummary
 						expandIcon={<ExpandMoreIcon />}
 						aria-controls={`panel${index}-content`}

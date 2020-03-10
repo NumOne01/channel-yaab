@@ -10,14 +10,15 @@ import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles({
 	root: {
-		maxWidth: 345
+		maxWidth: 345,
+		width: 300
 	},
 	media: {
 		height: 140
 	}
 })
 
-export default function MediaCard() {
+export default function MediaCard(props) {
 	const classes = useStyles()
 
 	return (
@@ -30,26 +31,23 @@ export default function MediaCard() {
 				/>
 				<CardContent>
 					<Typography gutterBottom variant="h5" component="h2">
-						Lizard
+						{props.heading}
 					</Typography>
 					<Typography
 						variant="body2"
 						color="textSecondary"
 						component="p"
 					>
-						Lizards are a widespread group of squamate reptiles,
-						with over 6,000 species, ranging across all continents
-						except Antarctica
+						{props.body}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
 			<CardActions>
-				<Button size="small" color="primary">
-					Share
-				</Button>
-				<Button size="small" color="primary">
-					Learn More
-				</Button>
+				{props.buttons.map(button => (
+					<Button size="small" color="primary">
+						{button.name}
+					</Button>
+				))}
 			</CardActions>
 		</Card>
 	)

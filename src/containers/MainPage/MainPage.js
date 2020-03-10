@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Chip, SearchBox, Card, Expansion } from '../../components/UI'
+import { Chip, SearchBox, Card, Expansion, Cards } from '../../components/UI'
 import classes from './MainPage.module.css'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
 
@@ -97,6 +97,44 @@ const ExpansionData = [
 	}
 ]
 
+const CardsData = [
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+	{
+		heading: 'گیزمیز',
+		body: 'کانال طنز و سرگرمی',
+		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
+	},
+]
+
 export default class MainPage extends Component {
 	render() {
 		return (
@@ -104,7 +142,7 @@ export default class MainPage extends Component {
 				<div className={classes.Container}>
 					<SearchBox />
 					<Chip />
-					<Card />
+					<Cards data={CardsData} />
 				</div>
 				<div className={classes.Expansion}>
 					<Expansion data={ExpansionData} />
