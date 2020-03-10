@@ -8,7 +8,7 @@ const NavigationItems = () => {
 			<NavigationItem link="/">صفحه اصلی</NavigationItem>
 			<NavigationItem link="/new-post">پست جدید</NavigationItem>
 			<NavigationItem link="/contact-us">تماس با ما</NavigationItem>
-			<NavigationItem link="/profile">حساب کاربری</NavigationItem>
+			<NavigationItem link="/login">ورود</NavigationItem>
 		</ul>
 	)
 }
