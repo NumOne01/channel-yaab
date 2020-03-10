@@ -132,7 +132,14 @@ const CardsData = [
 		heading: 'گیزمیز',
 		body: 'کانال طنز و سرگرمی',
 		buttons: [{ name: 'کپی لینک' }, { name: 'به اشتراک گذاری' }]
-	},
+	}
+]
+
+const ChipData = [
+	{ label: 'سرگرمی' },
+	{ label: 'اشپزی' },
+	{ label: 'ورزشی' },
+	{ label: 'اموزشی' }
 ]
 
 export default class MainPage extends Component {
@@ -141,7 +148,7 @@ export default class MainPage extends Component {
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
 					<SearchBox />
-					<Chip />
+					<Chip data={ChipData} />
 					<Cards data={CardsData} />
 				</div>
 				<div className={classes.Expansion}>

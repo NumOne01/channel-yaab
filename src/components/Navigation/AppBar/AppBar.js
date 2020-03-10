@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+import NavigationItems from '../NavigationItems/NavigationItems'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -43,7 +44,7 @@ export default function MenuAppBar() {
 			<AppBar position="static">
 				<Toolbar>
 					<Typography variant="h6" className={classes.title}>
-						Photos
+						<NavigationItems />
 					</Typography>
 					{auth && (
 						<div>

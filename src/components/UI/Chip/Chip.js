@@ -16,25 +16,18 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-export default function ChipsArray() {
+export default function ChipsArray(props) {
 	const classes = useStyles()
-	const [chipData, setChipData] = React.useState([
-		{ key: 0, label: 'Angular' },
-		{ key: 1, label: 'jQuery' },
-		{ key: 2, label: 'Polymer' },
-		{ key: 3, label: 'React' },
-		{ key: 4, label: 'Vue.js' }
-	])
 
 	const handleDelete = chipToDelete => () => {
-		setChipData(chips =>
-			chips.filter(chip => chip.key !== chipToDelete.key)
-		)
+		// setChipData(chips =>
+		// 	chips.filter(chip => chip.key !== chipToDelete.key)
+		// )
 	}
 
 	return (
 		<Paper className={classes.root}>
-			{chipData.map(data => {
+			{props.data.map(data => {
 				let icon
 
 				if (data.label === 'React') {
