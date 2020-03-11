@@ -22,7 +22,7 @@ function Copyright() {
 		<Typography variant="body2" color="textSecondary" align="center">
 			{'Copyright © '}
 			<Link color="inherit" href="https://material-ui.com/">
-				Your Website
+				channel-yaab
 			</Link>{' '}
 			{new Date().getFullYear()}
 			{'.'}
@@ -71,7 +71,7 @@ function SignIn(props) {
 					<LockOutlinedIcon />
 				</Avatar>
 				<Typography component="h1" variant="h5">
-					{isLogin ? 'Sign in' : 'Sign up'}
+					{isLogin ? 'ورود' : 'ثبت نام'}
 				</Typography>
 				<form className={classes.form} noValidate onSubmit={submit}>
 					<TextField
@@ -80,7 +80,7 @@ function SignIn(props) {
 						required
 						fullWidth
 						id="email"
-						label="Email Address"
+						label="ایمیل"
 						name="email"
 						autoComplete="email"
 						autoFocus
@@ -92,7 +92,7 @@ function SignIn(props) {
 						required
 						fullWidth
 						name="password"
-						label="Password"
+						label="رمزعبور"
 						type="password"
 						id="password"
 						autoComplete="current-password"
@@ -100,7 +100,7 @@ function SignIn(props) {
 					/>
 					<FormControlLabel
 						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
+						label="من را به خاطر بسپار"
 					/>
 					<p>{props.error && props.error.message}</p>
 					{props.loading ? (
@@ -113,25 +113,27 @@ function SignIn(props) {
 							color="primary"
 							className={classes.submit}
 						>
-							{isLogin ? 'Sign in' : 'Sign up'}
+							{isLogin ? 'ورود' : 'ثبت نام'}
 						</Button>
 					)}
 					<Grid container>
-						<Grid item xs>
-							Forgot password?
+						<Grid item xs style={{ color: 'blue' }}>
+							فراموشی رمز
 						</Grid>
 						<Grid item>
 							{isLogin ? (
 								<span
 									onClick={() => setIsLogin(state => !state)}
+									style={{ color: 'blue' }}
 								>
-									Don't have an account? Sign Up
+									حساب کاربری نداری ؟‌ ثبت نام
 								</span>
 							) : (
 								<span
 									onClick={() => setIsLogin(state => !state)}
+									style={{ color: 'blue' }}
 								>
-									Already have an account? Sign In
+									حساب کاربری دارم. ورود
 								</span>
 							)}
 						</Grid>
