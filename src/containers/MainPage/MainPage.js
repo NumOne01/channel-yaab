@@ -4,10 +4,12 @@ import {
 	SearchBox,
 	Expansion,
 	Cards,
-	CheckBoxes
+	CheckBoxes,
+	Spinner
 } from '../../components/UI'
 import classes from './MainPage.module.css'
-import { database } from 'firebase'
+import { connect } from 'react-redux'
+import { fetchPosts } from '../../store/actions/posts'
 
 const collectionsTag = [
 	{ label: 'ورزشی', value: 'varzeshi' },
@@ -33,22 +35,14 @@ const ChipData = [
 	{ label: 'اموزشی' }
 ]
 
-export default class MainPage extends Component {
+class MainPage extends Component {
 	state = {
 		posts: [],
 		filters: []
 	}
 
 	componentDidMount() {
-		database()
-			.ref('/posts')
-			.on('value', snapshot => {
-				const posts = []
-				const val = snapshot.val()
-				for (let key in val) posts.push({ ...val[key], key })
-				this.posts = posts
-				this.setState({ posts })
-			})
+		this.props.fetchPosts()
 	}
 
 	ExpansionData = [
@@ -106,25 +100,38 @@ export default class MainPage extends Component {
 		const filters = checked
 			? this.state.filters.concat(filter)
 			: this.state.filters.filter(filterName => filterName !== filter)
-		const posts =
+		this.setState({ filters })
+	}
+
+	renderPosts = () => {
+		const { posts } = this.props
+		const { filters } = this.state
+		const updatedPosts =
 			filters.length > 0
-				? this.posts.filter(post =>
+				? posts.filter(post =>
 						filters.some(
 							filterName => post.tags.indexOf(filterName) >= 0
 						)
 				  )
-				: this.posts
-		this.setState({ filters, posts })
+				: posts
+		return updatedPosts
 	}
 
 	render() {
-		const { posts } = this.state
-		return (
+		const { posts, loading } = this.props
+		return loading ? (
+			<Spinner />
+		) : (
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
 					<SearchBox />
 					<Chip data={ChipData} />
-					{posts && <Cards data={posts} />}
+					{posts && (
+						<Cards
+							data={this.renderPosts()}
+							clicked={id => this.props.history.push(id)}
+						/>
+					)}
 				</div>
 				<div className={classes.Expansion}>
 					<Expansion data={this.ExpansionData} />
@@ -133,3 +140,13 @@ export default class MainPage extends Component {
 		)
 	}
 }
+
+const mapStateToProps = ({ posts }) => {
+	return {
+		posts: posts.posts,
+		loading: posts.loading,
+		error: posts.error
+	}
+}
+
+export default connect(mapStateToProps, { fetchPosts })(MainPage)
