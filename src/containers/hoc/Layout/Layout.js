@@ -1,11 +1,15 @@
 import React from 'react'
 import AppBar from '../../../components/Navigation/AppBar/AppBar'
 import { connect } from 'react-redux'
+import { logout } from '../../../store/actions/auth'
 
 const Layout = props => {
 	return (
 		<div>
-			<AppBar isAuthenticated={props.isAuthenticated} />
+			<AppBar
+				isAuthenticated={props.isAuthenticated}
+				onLogOut={props.logout}
+			/>
 			{props.children}
 		</div>
 	)
@@ -17,4 +21,4 @@ const mapStateToProps = ({ auth }) => {
 	}
 }
 
-export default connect(mapStateToProps)(Layout)
+export default connect(mapStateToProps, { logout })(Layout)

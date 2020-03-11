@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import reducers from './store/reducers'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { initializeApp } from 'firebase/app'
 import thunk from 'redux-thunk'
 
@@ -21,7 +21,9 @@ initializeApp({
 	measurementId: 'G-T63C8DH6FH'
 })
 
-const store = createStore(reducers, applyMiddleware(thunk))
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)))
 
 ReactDOM.render(
 	<Provider store={store}>

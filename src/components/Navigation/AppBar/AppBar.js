@@ -79,6 +79,14 @@ export default function MenuAppBar(props) {
 								<MenuItem onClick={handleClose}>
 									My account
 								</MenuItem>
+								<MenuItem
+									onClick={() => {
+										handleClose()
+										props.onLogOut()
+									}}
+								>
+									Log out
+								</MenuItem>
 							</Menu>
 						</div>
 					)}
