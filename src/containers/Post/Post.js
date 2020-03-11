@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Spinner } from '../../components/UI'
+import classes from './Post.module.css'
 
 class Post extends Component {
 	state = {
@@ -15,7 +16,7 @@ class Post extends Component {
 	render() {
 		const { post } = this.state
 		return post ? (
-			<div>
+			<div className={classes.Container}>
 				<h2>{post.heading}</h2>
 				<p>{post.body}</p>
 			</div>
