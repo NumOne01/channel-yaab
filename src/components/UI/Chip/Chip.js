@@ -17,25 +17,15 @@ const useStyles = makeStyles(theme => ({
 
 export default function ChipsArray(props) {
 	const classes = useStyles()
-
-	const handleDelete = chipToDelete => () => {}
-
+	const { data } = props
 	return (
 		<Paper className={classes.root}>
-			{props.data.map(data => {
-				return (
-					<Chip
-						key={data.label}
-						label={data.label}
-						onDelete={
-							data.label === 'React'
-								? undefined
-								: handleDelete(data)
-						}
-						className={classes.chip}
-					/>
-				)
-			})}
+			<Chip
+				key={data}
+				label={data}
+				onDelete={props.onRemove}
+				className={classes.chip}
+			/>
 		</Paper>
 	)
 }

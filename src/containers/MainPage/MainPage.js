@@ -28,12 +28,16 @@ const sortingTags = [
 	{ label: 'جدیدترین', value: 'jadid' }
 ]
 
-const ChipData = [
-	{ label: 'سرگرمی' },
-	{ label: 'اشپزی' },
-	{ label: 'ورزشی' },
-	{ label: 'اموزشی' }
-]
+const labels = {
+	varzeshi: 'ورزشی',
+	amoozehsi: 'آموزشی',
+	sargarmi: 'سرگرمی',
+	ashpazi: 'آشپزی',
+	telegram: 'تلگرام',
+	instagram: 'اینستاگرام',
+	portarafdar: 'پرطرفدارتین',
+	jadid: 'جدیدترین'
+}
 
 class MainPage extends Component {
 	state = {
@@ -96,10 +100,20 @@ class MainPage extends Component {
 		}
 	]
 
-	onChangeFilter = (filter, checked) => {
-		const filters = checked
-			? this.state.filters.concat(filter)
-			: this.state.filters.filter(filterName => filterName !== filter)
+	onChangeFilter = (filter, checked, label) => {
+		if (checked) this.addFilter(filter, label)
+		else this.removeFilter(filter, label)
+	}
+
+	addFilter = filter => {
+		const filters = this.state.filters.concat(filter)
+		this.setState({ filters })
+	}
+
+	removeFilter = filter => {
+		const filters = this.state.filters.filter(
+			filterName => filterName !== filter
+		)
 		this.setState({ filters })
 	}
 
@@ -122,8 +136,14 @@ class MainPage extends Component {
 		return (
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
-					<SearchBox />
-					<Chip data={ChipData} />
+					{/* <SearchBox /> */}
+					{/* {filters.map(filter => (
+						<Chip
+							key={filter}
+							data={labels[filter]}
+							onRemove={() => this.removeFilter(filter)}
+						/>
+					))} */}
 					{loading ? (
 						<Spinner />
 					) : (

@@ -76,9 +76,6 @@ export default function MenuAppBar(props) {
 								<MenuItem onClick={handleClose}>
 									<Link to="/profile">Profile</Link>
 								</MenuItem>
-								<MenuItem onClick={handleClose}>
-									My account
-								</MenuItem>
 								<MenuItem
 									onClick={() => {
 										handleClose()
