@@ -1,15 +1,6 @@
 .NewPost {
+    margin-top: 32px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.Input {
-    width: 40%;
-    margin: 8px 8px;
-}
-
-.SubmitButton {
-    margin: 8px 0;
-    margin-top: 20px;
 }

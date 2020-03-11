@@ -60,39 +60,44 @@ function NewPost(props) {
 			<TextField
 				id="standard-basic"
 				label="عنوان"
-				className={classes.Input}
 				inputRef={headingRef}
+				style={{ marginBottom: 16, width: '25%' }}
 			/>
 			<TextField
 				id="standard-basic"
 				label="توضیحات"
 				className={classes.Input}
 				inputRef={bodyRef}
+				multiline
+				rows={3}
+				style={{ width: '25%' }}
 			/>
 			<p>{error ? error.message : null}</p>
-			{tags.map(tag => (
-				<FormControlLabel
-					key={tag.label}
-					control={
-						<Checkbox
-							value={tag.value}
-							inputProps={{
-								'aria-label': 'Checkbox' + tag.label
-							}}
-							color="primary"
-							inputRef={tagsRef[tag.value]}
-						/>
-					}
-					label={tag.label}
-				/>
-			))}
+			<div>
+				{tags.map(tag => (
+					<FormControlLabel
+						key={tag.label}
+						control={
+							<Checkbox
+								value={tag.value}
+								inputProps={{
+									'aria-label': 'Checkbox' + tag.label
+								}}
+								color="primary"
+								inputRef={tagsRef[tag.value]}
+							/>
+						}
+						label={tag.label}
+					/>
+				))}
+			</div>
 			{loading ? (
 				<Spinner />
 			) : (
 				<Button
 					variant="contained"
 					color="primary"
-					className={classes.SubmitButton}
+					style={{ marginTop: 32 }}
 					onClick={submitPost}
 				>
 					Submit
