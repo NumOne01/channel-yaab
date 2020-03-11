@@ -73,7 +73,7 @@ export const authCheckState = () => {
 	return dispatch => {
 		if (token) {
 			const userId = localStorage.getItem('userId')
-			dispatch({ type: LOGIN_SUCCEED, userId, token })
+			dispatch(loginSucceed(token, userId))
 		} else dispatch({ type: LOGIN_FAILED })
 	}
 }

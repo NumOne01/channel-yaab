@@ -8,6 +8,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import NavigationItems from '../NavigationItems/NavigationItems'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -33,7 +34,6 @@ export default function MenuAppBar(props) {
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
-
 	return (
 		<div className={classes.root}>
 			<AppBar position="static">
@@ -74,7 +74,7 @@ export default function MenuAppBar(props) {
 								onClose={handleClose}
 							>
 								<MenuItem onClick={handleClose}>
-									Profile
+									<Link to="/profile">Profile</Link>
 								</MenuItem>
 								<MenuItem onClick={handleClose}>
 									My account

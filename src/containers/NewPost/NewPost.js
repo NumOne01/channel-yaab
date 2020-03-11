@@ -6,9 +6,9 @@ import {
 	FormControlLabel
 } from '@material-ui/core'
 import classes from './NewPost.module.css'
-import { database } from 'firebase/app'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { connect } from 'react-redux'
+import axios from '../../axios-posts'
 
 const tags = [
 	{ label: 'ورزشی', value: 'varzeshi' },
@@ -34,17 +34,16 @@ function NewPost(props) {
 		const taged = []
 		for (let key in tagsRef)
 			if (tagsRef[key].current.checked) taged.push(key)
-
 		setLoading(true)
 		setError(null)
-		database()
-			.ref('/posts')
-			.push({
-				heading: headingRef.current.value,
-				body: bodyRef.current.value,
-				tags: taged,
-				uid: props.uid
-			})
+		const postData = {
+			heading: headingRef.current.value,
+			body: bodyRef.current.value,
+			tags: taged,
+			userId: props.userId
+		}
+		axios
+			.post('/posts.json?auth=' + props.token, postData)
 			.then(() => {
 				setLoading(false)
 				setError(null)
@@ -104,7 +103,7 @@ function NewPost(props) {
 }
 
 const mapStateToProps = ({ auth }) => {
-	return { uid: auth.userId }
+	return { userId: auth.userId, token: auth.token }
 }
 
 export default connect(mapStateToProps)(NewPost)

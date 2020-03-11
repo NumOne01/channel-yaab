@@ -119,18 +119,20 @@ class MainPage extends Component {
 
 	render() {
 		const { posts, loading } = this.props
-		return loading ? (
-			<Spinner />
-		) : (
+		return (
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
 					<SearchBox />
 					<Chip data={ChipData} />
-					{posts && (
-						<Cards
-							data={this.renderPosts()}
-							clicked={id => this.props.history.push(id)}
-						/>
+					{loading ? (
+						<Spinner />
+					) : (
+						posts && (
+							<Cards
+								data={this.renderPosts()}
+								clicked={id => this.props.history.push(id)}
+							/>
+						)
 					)}
 				</div>
 				<div className={classes.Expansion}>
