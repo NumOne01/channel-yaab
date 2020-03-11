@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Cards, Spinner } from '../../components/UI'
 import axios from '../../axios-posts'
 import { connect } from 'react-redux'
+import classes from './UserProfile.module.css'
 
 class UserProfile extends Component {
 	state = {
@@ -28,13 +29,15 @@ class UserProfile extends Component {
 		const { error, loading, posts } = this.state
 		return (
 			<div>
-				posts are:
 				{loading ? (
 					<Spinner />
 				) : error ? (
 					<p>{error.message}</p>
 				) : (
-					<Cards data={posts} />
+					<div className={classes.Container}>
+						<span>پست های ارسالی شما‌ :</span>
+						<Cards data={posts} />
+					</div>
 				)}
 			</div>
 		)
