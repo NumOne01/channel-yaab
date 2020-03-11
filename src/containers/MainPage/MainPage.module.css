@@ -1,18 +1,31 @@
 .MainPage {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .Expansion {
-    width: 25%;
-    margin-top: 32px
+	width: 25%;
+	margin-top: 32px;
 }
 
 .Container {
-    width: 70%;
+	width: 70%;
 }
 
 .checkBoxes {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
+}
+
+@media (max-width: 576px) {
+	.MainPage {
+        flex-direction: column-reverse;
+        align-items: center;
+	}
+	.Expansion {
+		width: 90%;
+	}
+	.Container {
+		width: 90%;
+	}
 }
