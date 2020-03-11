@@ -17,7 +17,7 @@ const Layout = props => {
 
 const mapStateToProps = ({ auth }) => {
 	return {
-		isAuthenticated: auth.user ? true : false
+		isAuthenticated: auth.token ? true : false
 	}
 }
 

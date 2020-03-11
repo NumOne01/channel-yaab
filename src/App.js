@@ -9,27 +9,25 @@ import { authCheckState } from './store/actions/auth'
 import Post from './containers/Post/Post'
 
 function App(props) {
-	useEffect(() => props.authCheckState(), [])
-	let routs = props.isAuthenticated ? (
-		<Switch>
-			<Route path="/new-post" component={NewPost} />
-			<Route path="/:id" component={Post} />
-			<Route exact path="/" component={MainPage} />
-			<Redirect to="/" />
-		</Switch>
-	) : (
-		<Switch>
-			<Route path="/login" component={Login} />
-			<Redirect from="/new-post" to="/login" />
-			<Route exact path="/" component={MainPage} />
-			<Redirect to="/" />
-		</Switch>
+	useEffect(() => props.authCheckState())
+	return (
+		<Layout>
+			<Switch>
+				<Route
+					path="/new-post"
+					component={props.isAuthenticated ? NewPost : Login}
+				/>
+				<Route path="/login" component={Login} />
+				<Route path="/:id" component={Post} />
+				<Route path="/" component={MainPage} />
+				<Redirect to="/" />
+			</Switch>
+		</Layout>
 	)
-	return <Layout>{routs}</Layout>
 }
 
 const mapStateToProps = ({ auth }) => {
-	return { isAuthenticated: auth.user ? true : false }
+	return { isAuthenticated: auth.token !== null ? true : false }
 }
 
 export default connect(mapStateToProps, { authCheckState })(App)

@@ -6,8 +6,8 @@ import {
 } from '../actions/actionTypes'
 
 const initialState = {
-	error: null,
-	user: null,
+	token: null,
+	userId: null,
 	loading: false
 }
 
@@ -16,9 +16,19 @@ const auth = (state = initialState, action) => {
 		case LOGIN_START:
 			return { ...state, loading: true }
 		case LOGIN_FAILED:
-			return { error: action.error, loading: false, user: null }
+			return {
+				error: action.error,
+				loading: false,
+				token: null,
+				userId: null
+			}
 		case LOGIN_SUCCEED:
-			return { user: action.user, error: '', loading: false }
+			return {
+				error: '',
+				loading: false,
+				token: action.token,
+				userId: action.userId
+			}
 		case LOGOUT:
 			return initialState
 		default:

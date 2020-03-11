@@ -61,7 +61,7 @@ function SignIn(props) {
 			props.login(emalInput.current.value, passwordInput.current.value)
 		else props.signup(emalInput.current.value, passwordInput.current.value)
 	}
-	return props.user ? (
+	return props.token ? (
 		<Redirect to="/" />
 	) : (
 		<Container component="main" maxWidth="xs">
@@ -146,7 +146,7 @@ function SignIn(props) {
 }
 
 const mapStateToProps = ({ auth }) => {
-	return { loading: auth.loading, error: auth.error, user: auth.user }
+	return { loading: auth.loading, error: auth.error, token: auth.token }
 }
 
 export default connect(mapStateToProps, { login, signup })(SignIn)

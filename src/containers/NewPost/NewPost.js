@@ -8,6 +8,7 @@ import {
 import classes from './NewPost.module.css'
 import { database } from 'firebase/app'
 import Spinner from '../../components/UI/Spinner/Spinner'
+import { connect } from 'react-redux'
 
 const tags = [
 	{ label: 'ورزشی', value: 'varzeshi' },
@@ -16,7 +17,7 @@ const tags = [
 	{ label: 'آموزشی', value: 'amoozehsi' }
 ]
 
-export default function BasicTextFields(props) {
+function NewPost(props) {
 	const headingRef = useRef(null)
 	const bodyRef = useRef(null)
 
@@ -41,7 +42,8 @@ export default function BasicTextFields(props) {
 			.push({
 				heading: headingRef.current.value,
 				body: bodyRef.current.value,
-				tags: taged
+				tags: taged,
+				uid: props.uid
 			})
 			.then(() => {
 				setLoading(false)
@@ -100,3 +102,9 @@ export default function BasicTextFields(props) {
 		</form>
 	)
 }
+
+const mapStateToProps = ({ auth }) => {
+	return { uid: auth.userId }
+}
+
+export default connect(mapStateToProps)(NewPost)
