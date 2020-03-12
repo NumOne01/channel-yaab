@@ -3,12 +3,16 @@ import {
 	TextField,
 	Button,
 	Checkbox,
-	FormControlLabel
+	FormControlLabel,
+	Input,
+	InputLabel,
+	Paper
 } from '@material-ui/core'
 import classes from './NewPost.module.css'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import { connect } from 'react-redux'
 import axios from '../../axios-posts'
+import { storage } from 'firebase/app'
 
 const tags = [
 	{ label: 'ورزشی', value: 'varzeshi' },
@@ -29,6 +33,8 @@ function NewPost(props) {
 	}
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
+	const [images, setImages] = useState([])
+	const [mainImage, setMainImage] = useState(0)
 
 	const submitPost = () => {
 		const taged = []
@@ -42,17 +48,41 @@ function NewPost(props) {
 			tags: taged,
 			userId: props.userId
 		}
+		const storageRef = storage().ref()
 		axios
 			.post('/posts.json?auth=' + props.token, postData)
-			.then(() => {
+			.then(response => {
 				setLoading(false)
 				setError(null)
+				images.map((image, index) => {
+					const imageRef = storageRef.child(
+						`/${response.data.name}/images/${
+							mainImage === index ? 'index' : 'image' + index
+						}.jpg`
+					)
+					imageRef.putString(image, 'data_url')
+				})
 				props.history.push('/')
 			})
 			.catch(error => {
 				setLoading(false)
 				setError(error)
 			})
+	}
+
+	const readImage = event => {
+		const input = event.target
+		const reader = new FileReader()
+		reader.onload = function() {
+			const dataURL = reader.result
+			addImage(dataURL)
+		}
+		reader.readAsDataURL(input.files[0])
+	}
+
+	const addImage = url => {
+		const updatedImages = images.concat(url)
+		setImages(updatedImages)
 	}
 
 	return (
@@ -70,9 +100,37 @@ function NewPost(props) {
 				inputRef={bodyRef}
 				multiline
 				rows={3}
-				style={{ width: '25%' }}
+				style={{ width: '25%', marginBottom: 32 }}
 			/>
-			<input type="file" />
+			<div style={{ width: '25%' }}>
+				<InputLabel htmlFor="images"> تصاویر </InputLabel>
+				<Input
+					type="file"
+					id="images"
+					style={{ width: '100%' }}
+					accept="image/*"
+					onChange={readImage}
+					inputProps={{ multiple: true }}
+				/>
+				<div className={classes.Images}>
+					{images.map((image, index) => (
+						<Paper
+							className={classes.ImageContainer}
+							key={image + index}
+							onClick={() => setMainImage(index)}
+						>
+							{mainImage === index && (
+								<div className={classes.check}></div>
+							)}
+							<img
+								src={image}
+								alt={'image' + index}
+								className={classes.Image}
+							/>
+						</Paper>
+					))}
+				</div>
+			</div>
 			<p>{error ? error.message : null}</p>
 			<div>
 				{tags.map(tag => (

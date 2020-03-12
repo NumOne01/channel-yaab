@@ -18,10 +18,14 @@ function App(props) {
 			<Switch>
 				<Route
 					path="/new-post"
-					component={props.isAuthenticated ? NewPost : Login}
-					render={() => (
+					render={props => (
 						<Suspense fallback={<Spinner />}>
-							{props.isAuthenticated ? <NewPost /> : <Login />}
+							{/* {props.isAuthenticated ? (
+								<NewPost {...props} />
+							) : (
+								<Login {...props} />
+							)} */}
+							<NewPost {...props} />
 						</Suspense>
 					)}
 				/>
