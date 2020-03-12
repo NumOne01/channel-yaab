@@ -72,6 +72,7 @@ function NewPost(props) {
 				rows={3}
 				style={{ width: '25%' }}
 			/>
+			<input type="file" />
 			<p>{error ? error.message : null}</p>
 			<div>
 				{tags.map(tag => (

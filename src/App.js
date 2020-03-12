@@ -2,15 +2,14 @@ import React, { useEffect, lazy, Suspense } from 'react'
 import Layout from './containers/hoc/Layout/Layout'
 import MainPage from './containers/MainPage/MainPage'
 import { Switch, Route, Redirect } from 'react-router-dom'
-import NewPost from './containers/NewPost/NewPost'
-import Login from './containers/SignIn/Signin'
 import { connect } from 'react-redux'
 import { authCheckState } from './store/actions/auth'
-import Post from './containers/Post/Post'
 import { Spinner } from './components/UI'
-//import UserProfie from './containers/UserPorfile/UserProfile'
+import Post from './containers/Post/Post'
 
 const UserPorfile = lazy(() => import('./containers/UserPorfile/UserProfile'))
+const Login = lazy(() => import('./containers/SignIn/Signin'))
+const NewPost = lazy(() => import('./containers/NewPost/NewPost'))
 
 function App(props) {
 	useEffect(() => props.authCheckState())
@@ -20,6 +19,11 @@ function App(props) {
 				<Route
 					path="/new-post"
 					component={props.isAuthenticated ? NewPost : Login}
+					render={() => (
+						<Suspense fallback={<Spinner />}>
+							{props.isAuthenticated ? <NewPost /> : <Login />}
+						</Suspense>
+					)}
 				/>
 				<Route
 					path="/profile"
@@ -29,7 +33,14 @@ function App(props) {
 						</Suspense>
 					)}
 				/>
-				<Route path="/login" component={Login} />
+				<Route
+					path="/login"
+					render={props => (
+						<Suspense fallback={<Spinner />}>
+							<Login {...props} />
+						</Suspense>
+					)}
+				/>
 				<Route path="/:id" component={Post} />
 				<Route path="/" component={MainPage} />
 				<Redirect to="/" />
