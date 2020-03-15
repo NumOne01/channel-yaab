@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import $ from 'jquery'
+import Popper from 'popper.js'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter } from 'react-router-dom'
@@ -9,6 +11,7 @@ import reducers from './store/reducers'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { initializeApp } from 'firebase/app'
 import thunk from 'redux-thunk'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 initializeApp({
 	apiKey: 'AIzaSyB3MXTR-6v_k07r77FXrIfeB9EPbrHigqQ',

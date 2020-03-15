@@ -10,6 +10,7 @@ const Cards = props => {
 					heading={item.heading}
 					body={item.body}
 					key={item.key}
+					image={item.images && item.images.index.url}
 					clicked={() => props.clicked(item.key)}
 				/>
 			))}

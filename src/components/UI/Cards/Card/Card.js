@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 		margin: 8
 	},
 	media: {
-		height: 140
+		height: '140px'
 	}
 })
 
@@ -28,7 +28,7 @@ export default function MediaCard(props) {
 			<CardActionArea>
 				<CardMedia
 					className={classes.media}
-					image="/static/images/cards/contemplative-reptile.jpg"
+					image={props.image}
 					title="Contemplative Reptile"
 				/>
 				<CardContent>

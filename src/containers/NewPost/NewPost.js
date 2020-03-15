@@ -36,7 +36,7 @@ function NewPost(props) {
 	const [images, setImages] = useState([])
 	const [mainImage, setMainImage] = useState(0)
 
-	const submitPost = () => {
+	const submitPost = async () => {
 		const taged = []
 		for (let key in tagsRef)
 			if (tagsRef[key].current.checked) taged.push(key)
@@ -48,26 +48,38 @@ function NewPost(props) {
 			tags: taged,
 			userId: props.userId
 		}
-		const storageRef = storage().ref()
-		axios
-			.post('/posts.json?auth=' + props.token, postData)
-			.then(response => {
-				setLoading(false)
-				setError(null)
-				images.map((image, index) => {
-					const imageRef = storageRef.child(
-						`/${response.data.name}/images/${
-							mainImage === index ? 'index' : 'image' + index
-						}.jpg`
-					)
-					imageRef.putString(image, 'data_url')
-				})
-				props.history.push('/')
+		try {
+			const storageRef = storage().ref()
+			let id = null
+			const response = await axios.post(
+				'/posts.json?auth=' + props.token,
+				postData
+			)
+			setLoading(false)
+			setError(null)
+			id = response.data.name
+			images.map(async (image, index) => {
+				const imageRef = storageRef.child(
+					`/${response.data.name}/images/${
+						mainImage === index ? 'index' : 'image' + index
+					}.jpg`
+				)
+				const answer = await imageRef.putString(image, 'data_url')
+				const url = await answer.ref.getDownloadURL()
+				axios.patch(
+					`/posts/${id}/images/${
+						mainImage === index ? 'index' : 'image' + index
+					}.json?auth=` + props.token,
+					{
+						url
+					}
+				)
 			})
-			.catch(error => {
-				setLoading(false)
-				setError(error)
-			})
+			props.history.push('/')
+		} catch (error) {
+			setLoading(false)
+			setError(error)
+		}
 	}
 
 	const readImage = event => {
