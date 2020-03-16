@@ -42,3 +42,26 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
+
+.Input {
+	margin: 8px 0px;
+	width: 90%;
+}
+
+@media (min-width: 576px) {
+	.Input {
+		width: 70%
+	}
+}
+
+@media (min-width: 992px) {
+	.Input {
+		width: 50%
+	}
+}
+
+@media (min-width: 1200px) {
+	.Input {
+		width: 40%
+	}
+}

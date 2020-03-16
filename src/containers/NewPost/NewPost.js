@@ -18,12 +18,17 @@ const tags = [
 	{ label: 'ورزشی', value: 'varzeshi' },
 	{ label: 'سرگرمی', value: 'sargarmi' },
 	{ label: 'آشپزی', value: 'ashpazi' },
-	{ label: 'آموزشی', value: 'amoozehsi' }
+	{ label: 'آموزشی', value: 'amoozehsi' },
+	{ label: 'اجتماعی', value: 'ejtemai' },
+	{ label: 'سیاسی', value: 'siasi' },
+	{ label: 'فرهنگی', value: 'farhangi' }
 ]
 
 function NewPost(props) {
 	const headingRef = useRef(null)
 	const bodyRef = useRef(null)
+	const instagramRef = useRef(null)
+	const telegramRef = useRef(null)
 
 	const tagsRef = {
 		varzeshi: useRef(),
@@ -36,7 +41,8 @@ function NewPost(props) {
 	const [images, setImages] = useState([])
 	const [mainImage, setMainImage] = useState(0)
 
-	const submitPost = async () => {
+	const submitPost = async event => {
+		event.preventDefault()
 		const taged = []
 		for (let key in tagsRef)
 			if (tagsRef[key].current.checked) taged.push(key)
@@ -48,6 +54,10 @@ function NewPost(props) {
 			tags: taged,
 			userId: props.userId
 		}
+		if (telegramRef.current.value)
+			postData.telegramLink = telegramRef.current.value
+		if (instagramRef.current.value)
+			postData.instagramLink = instagramRef.current.value
 		try {
 			const storageRef = storage().ref()
 			let id = null
@@ -98,30 +108,48 @@ function NewPost(props) {
 	}
 
 	return (
-		<form className={classes.NewPost} noValidate autoComplete="off">
+		<form
+			className={classes.NewPost}
+			noValidate
+			autoComplete="off"
+			onSubmit={submitPost}
+		>
 			<TextField
-				id="standard-basic"
+				id="title"
 				label="عنوان"
 				inputRef={headingRef}
-				style={{ marginBottom: 16, width: '25%' }}
+				className={classes.Input}
+				required
 			/>
 			<TextField
-				id="standard-basic"
+				id="explanation"
 				label="توضیحات"
-				className={classes.Input}
 				inputRef={bodyRef}
 				multiline
 				rows={3}
-				style={{ width: '25%', marginBottom: 32 }}
+				className={classes.Input}
+				required
 			/>
-			<div style={{ width: '25%' }}>
+			<TextField
+				id="telegram"
+				label="لینک کانال یا گروه در تلگرام"
+				inputRef={telegramRef}
+				className={classes.Input}
+			/>
+			<TextField
+				id="instagram"
+				label="لینک صفحه در اینستاگرام"
+				inputRef={instagramRef}
+				className={classes.Input}
+			/>
+			<div className={classes.Input}>
 				<InputLabel htmlFor="images"> تصاویر </InputLabel>
 				<Input
 					type="file"
 					id="images"
-					style={{ width: '100%' }}
 					accept="image/*"
 					onChange={readImage}
+					fullWidth
 					inputProps={{ multiple: true }}
 				/>
 				<div className={classes.Images}>
@@ -144,7 +172,7 @@ function NewPost(props) {
 				</div>
 			</div>
 			<p>{error ? error.message : null}</p>
-			<div>
+			<div className={classes.Input}>
 				{tags.map(tag => (
 					<FormControlLabel
 						key={tag.label}
@@ -168,10 +196,10 @@ function NewPost(props) {
 				<Button
 					variant="contained"
 					color="primary"
-					style={{ marginTop: 32 }}
-					onClick={submitPost}
+					style={{ marginTop: 16, marginBottom: 16 }}
+					type="submit"
 				>
-					Submit
+					ثبت
 				</Button>
 			)}
 		</form>
