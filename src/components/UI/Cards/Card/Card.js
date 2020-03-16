@@ -1,5 +1,4 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -7,27 +6,14 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-
-const useStyles = makeStyles({
-	root: {
-		width: '30%',
-		minWidth: 200,
-		maxWidth: 345,
-		margin: 8
-	},
-	media: {
-		height: '140px'
-	}
-})
+import classes from './Card.module.css'
 
 export default function MediaCard(props) {
-	const classes = useStyles()
-
 	return (
-		<Card className={classes.root} onClick={props.clicked}>
+		<Card className={classes.Root} onClick={props.clicked}>
 			<CardActionArea>
 				<CardMedia
-					className={classes.media}
+					className={classes.Media}
 					image={props.image}
 					title="Contemplative Reptile"
 				/>
@@ -48,6 +34,28 @@ export default function MediaCard(props) {
 				<Button size="small" color="primary">
 					اشتراک گذاری
 				</Button>
+				{props.telegramLink && (
+					<Button size="small" color="primary">
+						<a
+							href={props.telegramLink}
+							target="_new"
+							style={{ color: 'inherit', textDecoration: 'none' }}
+						>
+							عضوشدن در تلگرام
+						</a>
+					</Button>
+				)}
+				{props.instagramLink && (
+					<Button size="small" color="primary">
+						<a
+							href={props.instagramLink}
+							target="_new"
+							style={{ color: 'inherit', textDecoration: 'none' }}
+						>
+							عضوشدن در اینستاگرام
+						</a>
+					</Button>
+				)}
 			</CardActions>
 		</Card>
 	)
