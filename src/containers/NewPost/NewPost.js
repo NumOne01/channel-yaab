@@ -100,7 +100,7 @@ function NewPost(props) {
 			const dataURL = reader.result
 			addImage(dataURL)
 		}
-		reader.readAsDataURL(input.files[0])
+		input.files[0] && reader.readAsDataURL(input.files[0])
 	}
 
 	const addImage = url => {
