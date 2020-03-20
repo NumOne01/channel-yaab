@@ -47,6 +47,8 @@ function NewPost(props) {
 		const taged = []
 		for (let key in tagsRef)
 			if (tagsRef[key].current.checked) taged.push(key)
+		if (telegramRef.current.value) taged.push('telegram')
+		if (instagramRef.current.value) taged.push('instagram')
 		setLoading(true)
 		setError(null)
 		const postData = {
