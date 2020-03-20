@@ -9,15 +9,27 @@ const loginFailed = error => {
 	return { type: LOGIN_FAILED, error }
 }
 
-const loginSucceed = (token, userId) => {
+const loginSucceed = (token, userId, expiresIn) => {
 	localStorage.setItem('token', token)
 	localStorage.setItem('userId', userId)
-	return { type: LOGIN_SUCCEED, token, userId }
+	localStorage.setItem(
+		'expirationTime',
+		new Date(new Date().getTime() + expiresIn * 1000)
+	)
+	return dispatch => {
+		dispatch({ type: LOGIN_SUCCEED, token, userId })
+		dispatch(logoutTimeout(expiresIn))
+	}
+}
+
+const logoutTimeout = time => {
+	return dispatch => setTimeout(() => dispatch(logout()), time * 1000)
 }
 
 export const logout = () => {
 	localStorage.removeItem('token')
 	localStorage.removeItem('userId')
+	localStorage.removeItem('expirationTime')
 	return {
 		type: LOGOUT
 	}
@@ -38,7 +50,11 @@ export const login = (email, password) => {
 			.post(url, authData)
 			.then(response =>
 				dispatch(
-					loginSucceed(response.data.idToken, response.data.localId)
+					loginSucceed(
+						response.data.idToken,
+						response.data.localId,
+						response.data.expiresIn
+					)
 				)
 			)
 			.catch(error => dispatch(loginFailed(error)))
@@ -70,10 +86,11 @@ export const signup = (email, password) => {
 
 export const authCheckState = () => {
 	const token = localStorage.getItem('token')
+	const expirationTime = new Date(localStorage.getItem('expirationTime'))
 	return dispatch => {
-		if (token) {
+		if (token && new Date().getTime() < expirationTime.getTime()) {
 			const userId = localStorage.getItem('userId')
-			dispatch(loginSucceed(token, userId))
+			dispatch({ type: LOGIN_SUCCEED, token, userId })
 		} else dispatch({ type: LOGIN_FAILED })
 	}
 }
