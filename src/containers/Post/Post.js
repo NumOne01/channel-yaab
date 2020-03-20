@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Spinner } from '../../components/UI'
 import classes from './Post.module.css'
 import { Carousel } from 'react-bootstrap'
+import { Button } from '@material-ui/core'
+import axios from '../../axios-posts'
 
 class Post extends Component {
 	state = {
 		post: null
 	}
 	componentDidMount() {
-		const post = this.props.posts.find(
-			post => post.key === this.props.match.params.id
-		)
-		this.setState({ post })
+		axios
+			.get(`/posts/${this.props.match.params.id}.json`)
+			.then(response => this.setState({ post: response.data }))
 	}
 	renderImages = () => {
 		const images = []
@@ -37,8 +37,16 @@ class Post extends Component {
 		return post ? (
 			<div className={classes.Container}>
 				{this.renderImages()}
-				<h2>{post.heading}</h2>
-				<p>{post.body}</p>
+				<div className={classes.Body}>
+					<h2>{post.heading}</h2>
+					<p>{post.body}</p>
+					{post.telegramLink && (
+						<Button color="primary">عضو شدن در تلگرام</Button>
+					)}
+					{post.instagramLink && (
+						<Button color="primary">عضو شدن در اینستا</Button>
+					)}
+				</div>
 			</div>
 		) : (
 			<Spinner />
@@ -46,8 +54,4 @@ class Post extends Component {
 	}
 }
 
-const mapStateToProps = ({ posts }) => {
-	return { posts: posts.posts }
-}
-
-export default connect(mapStateToProps)(Post)
+export default Post

@@ -1,9 +1,26 @@
 .Container {
+	margin-top: 32px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.Body {
 	margin: 32px;
 }
 
 .Images {
-	width: 25%;
-	height: 25%;
-	margin: auto;
+	width: 60%;
+	height: 60%;
+}
+
+@media (min-width: 576px) {
+	.Container {
+		flex-direction: row;
+		margin-left: 64px;
+	}
+	.Images {
+		width: 25%;
+		height: 25%;
+	}
 }
