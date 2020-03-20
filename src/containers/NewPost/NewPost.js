@@ -13,6 +13,8 @@ import Spinner from '../../components/UI/Spinner/Spinner'
 import { connect } from 'react-redux'
 import axios from '../../axios-posts'
 import { storage } from 'firebase/app'
+import Close from '@material-ui/icons/Close'
+import Check from '@material-ui/icons/Check'
 
 const tags = [
 	{ label: 'ورزشی', value: 'varzeshi' },
@@ -38,8 +40,7 @@ function NewPost(props) {
 	}
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
-	const [images, setImages] = useState([])
-	const [mainImage, setMainImage] = useState(0)
+	const [images, setImages] = useState({ images: [], mainImage: 0 })
 
 	const submitPost = async event => {
 		event.preventDefault()
@@ -68,17 +69,17 @@ function NewPost(props) {
 			setLoading(false)
 			setError(null)
 			id = response.data.name
-			images.map(async (image, index) => {
+			images.images.map(async (image, index) => {
 				const imageRef = storageRef.child(
 					`/${response.data.name}/images/${
-						mainImage === index ? 'index' : 'image' + index
+						images.mainImage === index ? 'index' : 'image' + index
 					}.jpg`
 				)
 				const answer = await imageRef.putString(image, 'data_url')
 				const url = await answer.ref.getDownloadURL()
 				axios.patch(
 					`/posts/${id}/images/${
-						mainImage === index ? 'index' : 'image' + index
+						images.mainImage === index ? 'index' : 'image' + index
 					}.json?auth=` + props.token,
 					{
 						url
@@ -103,14 +104,13 @@ function NewPost(props) {
 	}
 
 	const addImage = url => {
-		const updatedImages = images.concat(url)
-		setImages(updatedImages)
+		const updatedImages = images.images.concat(url)
+		setImages({ images: updatedImages, mainImage: images.mainImage })
 	}
 
 	return (
 		<form
 			className={classes.NewPost}
-			noValidate
 			autoComplete="off"
 			onSubmit={submitPost}
 		>
@@ -153,21 +153,57 @@ function NewPost(props) {
 					inputProps={{ multiple: true }}
 				/>
 				<div className={classes.Images}>
-					{images.map((image, index) => (
-						<Paper
-							className={classes.ImageContainer}
+					{images.images.map((image, index) => (
+						<div
+							style={{ position: 'relative' }}
 							key={image + index}
-							onClick={() => setMainImage(index)}
 						>
-							{mainImage === index && (
-								<div className={classes.check}></div>
-							)}
-							<img
-								src={image}
-								alt={'image' + index}
-								className={classes.Image}
+							<Paper
+								className={classes.ImageContainer}
+								onClick={() =>
+									setImages({
+										images: images.images,
+										mainImage: index
+									})
+								}
+							>
+								{images.mainImage === index && (
+									<Check
+										style={{
+											position: 'absolute',
+											left: '4px',
+											bottom: '4px',
+											color: 'green'
+										}}
+									/>
+								)}
+								<img
+									src={image}
+									alt={'image' + index}
+									className={classes.Image}
+								/>
+							</Paper>
+							<Close
+								style={{
+									position: 'absolute',
+									right: '4px',
+									top: '4px',
+									color: 'red',
+									cursor: 'pointer'
+								}}
+								onClick={() => {
+									setImages({
+										images: images.images.filter(
+											img => img !== image
+										),
+										mainImage:
+											images.mainImage === index
+												? 0
+												: index
+									})
+								}}
 							/>
-						</Paper>
+						</div>
 					))}
 				</div>
 			</div>

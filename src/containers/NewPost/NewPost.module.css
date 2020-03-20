@@ -17,25 +17,6 @@
 	height: 100%;
 }
 
-:root {
-	--borderWidth: 7px;
-	--height: 24px;
-	--width: 12px;
-	--borderColor: #78b13f;
-}
-
-.check {
-	display: inline-block;
-	position: absolute;
-	left: 4px;
-	top: 4px;
-	transform: rotate(45deg);
-	height: var(--height);
-	width: var(--width);
-	border-bottom: var(--borderWidth) solid var(--borderColor);
-	border-right: var(--borderWidth) solid var(--borderColor);
-}
-
 .Images {
 	margin-top: 16px;
 	display: flex;
@@ -50,18 +31,18 @@
 
 @media (min-width: 576px) {
 	.Input {
-		width: 70%
+		width: 70%;
 	}
 }
 
 @media (min-width: 992px) {
 	.Input {
-		width: 50%
+		width: 50%;
 	}
 }
 
 @media (min-width: 1200px) {
 	.Input {
-		width: 40%
+		width: 40%;
 	}
 }
