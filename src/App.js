@@ -18,35 +18,38 @@ function App(props) {
 			<Switch>
 				<Route
 					path="/new-post"
-					render={props => (
+					render={routeProps => (
 						<Suspense fallback={<Spinner />}>
-							{/* {props.isAuthenticated ? (
-								<NewPost {...props} />
+							{props.isAuthenticated ? (
+								<NewPost {...routeProps} />
 							) : (
+								<Login {...routeProps} />
+							)}
+						</Suspense>
+					)}
+				/>
+				{props.isAuthenticated && (
+					<Route
+						path="/profile"
+						render={() => (
+							<Suspense fallback={<Spinner />}>
+								<UserPorfile />
+							</Suspense>
+						)}
+					/>
+				)}
+				{!props.isAuthenticated && (
+					<Route
+						path="/login"
+						render={props => (
+							<Suspense fallback={<Spinner />}>
 								<Login {...props} />
-							)} */}
-							<NewPost {...props} />
-						</Suspense>
-					)}
-				/>
-				<Route
-					path="/profile"
-					render={() => (
-						<Suspense fallback={<Spinner />}>
-							<UserPorfile />
-						</Suspense>
-					)}
-				/>
-				<Route
-					path="/login"
-					render={props => (
-						<Suspense fallback={<Spinner />}>
-							<Login {...props} />
-						</Suspense>
-					)}
-				/>
-				<Route path="/:id" component={Post} />
-				<Route path="/" component={MainPage} />
+							</Suspense>
+						)}
+					/>
+				)}
+				<Route path="/post/:id" component={Post} />
+				<Route exact path="/" component={MainPage} />
 				<Redirect to="/" />
 			</Switch>
 		</Layout>

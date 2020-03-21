@@ -181,7 +181,9 @@ class MainPage extends Component {
 							<div style={{ clear: 'both' }}>
 								<Cards
 									data={this.renderPosts()}
-									clicked={id => this.props.history.push(id)}
+									clicked={id =>
+										this.props.history.push('/post/' + id)
+									}
 								/>
 							</div>
 						)
