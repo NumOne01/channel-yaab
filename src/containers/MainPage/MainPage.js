@@ -5,18 +5,12 @@ import {
 	Expansion,
 	Cards,
 	CheckBoxes,
-	Spinner
+	Spinner,
+	CheckBox
 } from '../../components/UI'
 import classes from './MainPage.module.css'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../../store/actions/posts'
-
-const collectionsTag = [
-	{ label: 'ورزشی', value: 'varzeshi' },
-	{ label: 'سرگرمی', value: 'sargarmi' },
-	{ label: 'آشپزی', value: 'ashpazi' },
-	{ label: 'آموزشی', value: 'amoozehsi' }
-]
 
 const socialMediaTags = [
 	{ label: 'اینستاگرام', value: 'instagram' },
@@ -45,64 +39,20 @@ class MainPage extends Component {
 		filters: []
 	}
 
+	collectionsTag = [
+		{ label: 'ورزشی', value: 'varzeshi' },
+		{ label: 'سرگرمی', value: 'sargarmi' },
+		{ label: 'آشپزی', value: 'ashpazi' },
+		{ label: 'آموزشی', value: 'amoozehsi' }
+	]
+
 	componentDidMount() {
 		this.props.fetchPosts()
 	}
 
-	ExpansionData = [
-		{
-			heading: 'دسته بندی ها',
-			body: (
-				<form className={classes.checkBoxes}>
-					<CheckBoxes
-						data={collectionsTag}
-						changed={event =>
-							this.onChangeFilter(
-								event.target.value,
-								event.target.checked
-							)
-						}
-					/>
-				</form>
-			)
-		},
-		{
-			heading: 'بر اساس شبکه اجتماعی',
-			body: (
-				<form className={classes.checkBoxes}>
-					<CheckBoxes
-						data={socialMediaTags}
-						changed={event =>
-							this.onChangeFilter(
-								event.target.value,
-								event.target.checked
-							)
-						}
-					/>
-				</form>
-			)
-		},
-		{
-			heading: 'مرتب سازی بر اساس',
-			body: (
-				<form className={classes.checkBoxes}>
-					<CheckBoxes
-						data={sortingTags}
-						changed={event =>
-							this.onChangeFilter(
-								event.target.value,
-								event.target.checked
-							)
-						}
-					/>
-				</form>
-			)
-		}
-	]
-
-	onChangeFilter = (filter, checked, label) => {
-		if (checked) this.addFilter(filter, label)
-		else this.removeFilter(filter, label)
+	onChangeFilter = (filter, checked) => {
+		if (checked) this.addFilter(filter)
+		else this.removeFilter(filter)
 	}
 
 	addFilter = filter => {
@@ -131,19 +81,85 @@ class MainPage extends Component {
 		return updatedPosts
 	}
 
+	renderCheckBoxes = () => {
+		const ExpansionData = [
+			{
+				heading: 'دسته بندی ها',
+				body: (
+					<form className={classes.checkBoxes}>
+						{this.collectionsTag.map(item => (
+							<CheckBox
+								key={item.value}
+								changed={event => {
+									this.onChangeFilter(
+										item.value,
+										event.target.checked
+									)
+								}}
+								value={item.value}
+								label={item.label}
+								checked={
+									this.state.filters.indexOf(item.value) >= 0
+										? true
+										: false
+								}
+							/>
+						))}
+					</form>
+				)
+			},
+			{
+				heading: 'بر اساس شبکه اجتماعی',
+				body: (
+					<form className={classes.checkBoxes}>
+						<CheckBoxes
+							data={socialMediaTags}
+							changed={event =>
+								this.onChangeFilter(
+									event.target.value,
+									event.target.checked
+								)
+							}
+						/>
+					</form>
+				)
+			},
+			{
+				heading: 'مرتب سازی بر اساس',
+				body: (
+					<form className={classes.checkBoxes}>
+						<CheckBoxes
+							data={sortingTags}
+							changed={event => {
+								this.onChangeFilter(
+									event.target.value,
+									event.target.checked
+								)
+							}}
+						/>
+					</form>
+				)
+			}
+		]
+		return ExpansionData
+	}
+
 	render() {
 		const { posts, loading } = this.props
+		const { filters } = this.state
 		return (
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
 					{/* <SearchBox /> */}
-					{/* {filters.map(filter => (
-						<Chip
-							key={filter}
-							data={labels[filter]}
-							onRemove={() => this.removeFilter(filter)}
-						/>
-					))} */}
+					<div>
+						{filters.map(filter => (
+							<Chip
+								key={filter}
+								data={labels[filter]}
+								onRemove={() => this.removeFilter(filter)}
+							/>
+						))}
+					</div>
 					{loading ? (
 						<Spinner />
 					) : (
@@ -156,7 +172,7 @@ class MainPage extends Component {
 					)}
 				</div>
 				<div className={classes.Expansion}>
-					<Expansion data={this.ExpansionData} />
+					<Expansion data={this.renderCheckBoxes()} />
 				</div>
 			</div>
 		)

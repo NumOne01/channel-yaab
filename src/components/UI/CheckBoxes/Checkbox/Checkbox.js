@@ -10,6 +10,7 @@ const checkbox = props => {
 					inputProps={{ 'aria-label': 'Checkbox' + props.value }}
 					color="primary"
 					onChange={props.changed}
+					checked={props.checked}
 				/>
 			}
 			label={props.label}
