@@ -10,8 +10,8 @@ import classes from './Card.module.css'
 
 export default function MediaCard(props) {
 	return (
-		<Card className={classes.Root} onClick={props.clicked}>
-			<CardActionArea>
+		<Card className={classes.Root}>
+			<CardActionArea onClick={props.clicked}>
 				<CardMedia
 					className={classes.Media}
 					image={props.image}
