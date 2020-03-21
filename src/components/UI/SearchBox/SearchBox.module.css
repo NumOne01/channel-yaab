@@ -1,0 +1,25 @@
+.Container {
+    width: 90%;
+    margin: auto;
+}
+
+.Box {
+	margin-top: 32px;
+	position: relative;
+}
+
+.Input {
+	width: 100%;
+	border: 0.5px #eee solid;
+	height: 56px;
+	padding: 16px;
+}
+
+.SearchIcon {
+	position: absolute;
+	left: 8px;
+	top: 16px;
+	height: 72px;
+	width: 72px;
+	cursor: pointer;
+}

@@ -42,3 +42,20 @@ export const fetchPosts = () => {
 		}
 	}
 }
+
+export const search = query => {
+	return dispatch => {
+		dispatch(fetchStarted())
+		database()
+			.ref('/posts')
+			.orderByChild('heading')
+			.startAt(query)
+			.endAt(query + '\uf8ff')
+			.on('value', snapshot => {
+				const posts = []
+				const val = snapshot.val()
+				for (let key in val) posts.push({ ...val[key], key })
+				dispatch(fetchSucceed(posts))
+			})
+	}
+}

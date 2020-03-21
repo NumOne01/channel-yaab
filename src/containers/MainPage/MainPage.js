@@ -123,23 +123,23 @@ class MainPage extends Component {
 						/>
 					</form>
 				)
-			},
-			{
-				heading: 'مرتب سازی بر اساس',
-				body: (
-					<form className={classes.checkBoxes}>
-						<CheckBoxes
-							data={sortingTags}
-							changed={event => {
-								this.onChangeFilter(
-									event.target.value,
-									event.target.checked
-								)
-							}}
-						/>
-					</form>
-				)
 			}
+			// {
+			// 	heading: 'مرتب سازی بر اساس',
+			// 	body: (
+			// 		<form className={classes.checkBoxes}>
+			// 			<CheckBoxes
+			// 				data={sortingTags}
+			// 				changed={event => {
+			// 					this.onChangeFilter(
+			// 						event.target.value,
+			// 						event.target.checked
+			// 					)
+			// 				}}
+			// 			/>
+			// 		</form>
+			// 	)
+			// }
 		]
 		return ExpansionData
 	}
@@ -150,7 +150,7 @@ class MainPage extends Component {
 		return (
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
-					{/* <SearchBox /> */}
+					<SearchBox />
 					<div className={classes.Filters}>
 						{this.collectionsTag.map(filter => (
 							<span
