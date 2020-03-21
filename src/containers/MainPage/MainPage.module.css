@@ -12,15 +12,37 @@
 	width: 70%;
 }
 
+.Filters {
+	margin: 32px 32px 16px;
+	float: right;
+}
+
+.Filter {
+	margin: 4px;
+	cursor: pointer;
+}
+
 .checkBoxes {
 	display: flex;
 	flex-direction: column;
 }
 
+.Chips {
+	display: flex;
+	margin-right: 32px;
+	justify-content: flex-end;
+	clear: both;
+}
+
+.Divider {
+	width: 95%;
+	clear: both;
+}
+
 @media (max-width: 576px) {
 	.MainPage {
-        flex-direction: column-reverse;
-        align-items: center;
+		flex-direction: column-reverse;
+		align-items: center;
 	}
 	.Expansion {
 		width: 90%;

@@ -151,7 +151,21 @@ class MainPage extends Component {
 			<div className={classes.MainPage}>
 				<div className={classes.Container}>
 					{/* <SearchBox /> */}
-					<div>
+					<div className={classes.Filters}>
+						{this.collectionsTag.map(filter => (
+							<span
+								className={classes.Filter}
+								onClick={() => {
+									if (filters.indexOf(filter.value) === -1)
+										this.addFilter(filter.value)
+								}}
+							>
+								{filter.label + ' '}
+							</span>
+						))}
+					</div>
+					<hr className={classes.Divider} />
+					<div className={classes.Chips}>
 						{filters.map(filter => (
 							<Chip
 								key={filter}
@@ -164,10 +178,12 @@ class MainPage extends Component {
 						<Spinner />
 					) : (
 						posts && (
-							<Cards
-								data={this.renderPosts()}
-								clicked={id => this.props.history.push(id)}
-							/>
+							<div style={{ clear: 'both' }}>
+								<Cards
+									data={this.renderPosts()}
+									clicked={id => this.props.history.push(id)}
+								/>
+							</div>
 						)
 					)}
 				</div>
