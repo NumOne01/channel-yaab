@@ -12,8 +12,9 @@ class EditProfile extends Component {
 	}
 
 	componentDidMount() {
+		const queryParam = '?orderBy="userId"&equalTo="' + this.props.userId
 		axios
-			.get('/posts/' + this.props.match.params.id + '.json')
+			.get('/posts/' + this.props.match.params.id + '.json' + queryParam)
 			.then(response => {
 				this.setState({
 					post: response.data,
@@ -39,4 +40,8 @@ class EditProfile extends Component {
 	}
 }
 
-export default EditProfile
+const mapStateToProps = ({ auth }) => {
+	return { userId: auth.userId }
+}
+
+export default connect(mapStateToProps)(EditProfile)
