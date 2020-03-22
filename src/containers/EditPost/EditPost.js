@@ -3,6 +3,7 @@ import axios from '../../axios-posts'
 import { connect } from 'react-redux'
 import NewPost from '../NewPost/NewPost'
 import { Spinner } from '../../components/UI'
+import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
 
 class EditProfile extends Component {
 	state = {
@@ -27,9 +28,7 @@ class EditProfile extends Component {
 		const { post, loading, error } = this.state
 		return loading ? (
 			<Spinner />
-		) : error ? (
-			<p>{error.message}</p>
-		) : (
+		) : error ? null : (
 			<NewPost
 				{...post}
 				isEdit
@@ -44,4 +43,4 @@ const mapStateToProps = ({ auth }) => {
 	return { userId: auth.userId }
 }
 
-export default connect(mapStateToProps)(EditProfile)
+export default withErrorHandler(connect(mapStateToProps)(EditProfile), axios)
