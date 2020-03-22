@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import NewPost from '../NewPost/NewPost'
 import { Spinner } from '../../components/UI'
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
+import { database } from 'firebase'
 
 class EditProfile extends Component {
 	state = {
@@ -13,16 +14,28 @@ class EditProfile extends Component {
 	}
 
 	componentDidMount() {
-		const queryParam = '?orderBy="userId"&equalTo="' + this.props.userId
-		axios
-			.get('/posts/' + this.props.match.params.id + '.json' + queryParam)
-			.then(response => {
-				this.setState({
-					post: response.data,
-					loading: false
+		const { userId } = this.props
+		try {
+			database()
+				.ref('/posts/' + this.props.match.params.id)
+				.orderByChild('userId')
+				.equalTo(userId)
+				.once('value', snapshot => {
+					if (!snapshot.val() || snapshot.val().userId !== userId)
+						this.setState({
+							loading: false,
+							error: "You can't edit this post"
+						})
+					else
+						this.setState({
+							post: snapshot.val(),
+							loading: false,
+							erorr: ''
+						})
 				})
-			})
-			.catch(error => this.setState({ error, loading: false }))
+		} catch (error) {
+			this.setState({ loading: false, error })
+		}
 	}
 	render() {
 		const { post, loading, error } = this.state
