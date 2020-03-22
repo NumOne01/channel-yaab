@@ -140,6 +140,7 @@ function NewPost(props) {
 				className={classes.Input}
 				required
 				defaultValue={props.heading}
+				style={{ marginBottom: 8 }}
 			/>
 			<TextField
 				id="explanation"
@@ -150,6 +151,7 @@ function NewPost(props) {
 				className={classes.Input}
 				required
 				defaultValue={props.body}
+				style={{ marginBottom: 8 }}
 			/>
 			<TextField
 				id="telegram"
@@ -157,6 +159,7 @@ function NewPost(props) {
 				inputRef={telegramRef}
 				className={classes.Input}
 				defaultValue={props.telegramLink}
+				style={{ marginBottom: 8 }}
 			/>
 			<TextField
 				id="instagram"
@@ -164,6 +167,7 @@ function NewPost(props) {
 				inputRef={instagramRef}
 				className={classes.Input}
 				defaultValue={props.instagramLink}
+				style={{ marginBottom: 8 }}
 			/>
 			<div className={classes.Input}>
 				<InputLabel htmlFor="images"> تصاویر </InputLabel>
