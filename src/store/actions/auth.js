@@ -77,7 +77,11 @@ export const signup = (email, password) => {
 			.post(url, authData)
 			.then(response =>
 				dispatch(
-					loginSucceed(response.data.idToken, response.data.localId)
+					loginSucceed(
+						response.data.idToken,
+						response.data.localId,
+						response.data.expiresIn
+					)
 				)
 			)
 			.catch(error => dispatch(loginFailed(error)))

@@ -17,10 +17,10 @@ const socialMediaTags = [
 	{ label: 'تلگرام', value: 'telegram' }
 ]
 
-const sortingTags = [
-	{ label: 'پرطرفدارترین', value: 'portarafdar' },
-	{ label: 'جدیدترین', value: 'jadid' }
-]
+// const sortingTags = [
+// 	{ label: 'پرطرفدارترین', value: 'portarafdar' },
+// 	{ label: 'جدیدترین', value: 'jadid' }
+// ]
 
 const labels = {
 	varzeshi: 'ورزشی',
@@ -159,6 +159,7 @@ class MainPage extends Component {
 									if (filters.indexOf(filter.value) === -1)
 										this.addFilter(filter.value)
 								}}
+								key={filter.value}
 							>
 								{filter.label + ' '}
 							</span>
