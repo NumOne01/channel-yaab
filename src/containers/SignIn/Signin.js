@@ -114,21 +114,25 @@ function SignIn(props) {
 						</Button>
 					)}
 					<Grid container>
-						<Grid item xs style={{ color: 'blue' }}>
+						<Grid
+							item
+							xs
+							style={{ color: 'blue', cursor: 'pointer' }}
+						>
 							فراموشی رمز
 						</Grid>
 						<Grid item>
 							{isLogin ? (
 								<span
 									onClick={() => setIsLogin(state => !state)}
-									style={{ color: 'blue' }}
+									style={{ color: 'blue', cursor: 'pointer' }}
 								>
 									حساب کاربری نداری ؟‌ ثبت نام
 								</span>
 							) : (
 								<span
 									onClick={() => setIsLogin(state => !state)}
-									style={{ color: 'blue' }}
+									style={{ color: 'blue', cursor: 'pointer' }}
 								>
 									حساب کاربری دارم. ورود
 								</span>

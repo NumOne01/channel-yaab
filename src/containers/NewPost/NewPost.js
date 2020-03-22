@@ -54,7 +54,7 @@ function NewPost(props) {
 			}
 			setImages({ images, mainImage })
 		}
-	}, [])
+	}, [props.images])
 
 	const submitPost = async event => {
 		event.preventDefault()
