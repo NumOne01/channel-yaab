@@ -32,9 +32,9 @@ function App(props) {
 				{props.isAuthenticated && (
 					<Route
 						path="/profile"
-						render={() => (
+						render={props => (
 							<Suspense fallback={<Spinner />}>
-								<UserPorfile />
+								<UserPorfile {...props} />
 							</Suspense>
 						)}
 					/>

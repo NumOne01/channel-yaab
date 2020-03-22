@@ -45,7 +45,14 @@ class UserProfile extends Component {
 				) : (
 					<div className={classes.Container}>
 						<span>پست های ارسالی شما‌ :</span>
-						<Cards data={posts} isEdit onDelete={this.onDelete} />
+						<Cards
+							data={posts}
+							isEdit
+							onDelete={this.onDelete}
+							clicked={id =>
+								this.props.history.push('/post/' + id)
+							}
+						/>
 					</div>
 				)}
 			</div>
