@@ -16,6 +16,7 @@ const Cards = props => {
 					instagramLink={item.instagramLink}
 					isEdit={props.isEdit}
 					id={item.key}
+					onDelete={props.onDelete}
 				/>
 			))}
 		</div>

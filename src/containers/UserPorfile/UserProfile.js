@@ -3,6 +3,7 @@ import { Cards, Spinner } from '../../components/UI'
 import axios from '../../axios-posts'
 import { connect } from 'react-redux'
 import classes from './UserProfile.module.css'
+import { database } from 'firebase'
 
 class UserProfile extends Component {
 	state = {
@@ -12,19 +13,27 @@ class UserProfile extends Component {
 	}
 
 	componentDidMount() {
-		const { token, userId } = this.props
-		const queryParams =
-			'?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"'
-		axios
-			.get('/posts.json' + queryParams)
-			.then(respones => {
-				const posts = []
-				for (let key in respones.data)
-					posts.push({ ...respones.data[key], key })
-				this.setState({ posts, loading: false })
-			})
-			.catch(error => this.setState({ error, loading: false }))
+		const { userId } = this.props
+		try {
+			database()
+				.ref('/posts')
+				.orderByChild('userId')
+				.equalTo(userId)
+				.on('value', snapshot => {
+					const posts = []
+					const val = snapshot.val()
+					for (let key in val) posts.push({ ...val[key], key })
+					this.setState({ posts, loading: false, erorr: '' })
+				})
+		} catch (error) {
+			this.setState({ loading: false, error })
+		}
 	}
+
+	onDelete = id => {
+		axios.delete(`/posts/${id}.json`).catch(error => console.log(error))
+	}
+
 	render() {
 		const { error, loading, posts } = this.state
 		return (
@@ -36,7 +45,7 @@ class UserProfile extends Component {
 				) : (
 					<div className={classes.Container}>
 						<span>پست های ارسالی شما‌ :</span>
-						<Cards data={posts} isEdit />
+						<Cards data={posts} isEdit onDelete={this.onDelete} />
 					</div>
 				)}
 			</div>

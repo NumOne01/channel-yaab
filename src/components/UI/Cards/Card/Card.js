@@ -34,9 +34,6 @@ export default function MediaCard(props) {
 			<CardActions>
 				{!props.isEdit ? (
 					<Fragment>
-						<Button size="small" color="primary">
-							اشتراک گذاری
-						</Button>
 						{props.telegramLink && (
 							<Button size="small" color="primary">
 								<a
@@ -67,17 +64,26 @@ export default function MediaCard(props) {
 						)}
 					</Fragment>
 				) : (
-					<Button size="small" color="primary">
-						<Link
-							to={'/edit-post/' + props.id}
-							style={{
-								color: 'inherit',
-								textDecoration: 'none'
-							}}
+					<Fragment>
+						<Button size="small" color="primary">
+							<Link
+								to={'/edit-post/' + props.id}
+								style={{
+									color: 'inherit',
+									textDecoration: 'none'
+								}}
+							>
+								ویرایش
+							</Link>
+						</Button>
+						<Button
+							size="small"
+							color="primary"
+							onClick={() => props.onDelete(props.id)}
 						>
-							ویرایش
-						</Link>
-					</Button>
+							حذف
+						</Button>
+					</Fragment>
 				)}
 			</CardActions>
 		</Card>
