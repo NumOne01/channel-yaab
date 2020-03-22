@@ -86,7 +86,7 @@ export default function MenuAppBar(props) {
 											textDecoration: 'none'
 										}}
 									>
-										Profile
+										پروفایل
 									</Link>
 								</MenuItem>
 								<MenuItem
@@ -95,7 +95,7 @@ export default function MenuAppBar(props) {
 										props.onLogOut()
 									}}
 								>
-									Log out
+									خروح
 								</MenuItem>
 							</Menu>
 						</div>
