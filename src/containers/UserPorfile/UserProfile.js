@@ -3,7 +3,7 @@ import { Cards, Spinner } from '../../components/UI'
 import axios from '../../axios-posts'
 import { connect } from 'react-redux'
 import classes from './UserProfile.module.css'
-import { database } from 'firebase'
+import { database, storage } from 'firebase'
 
 class UserProfile extends Component {
 	state = {
@@ -32,6 +32,15 @@ class UserProfile extends Component {
 
 	onDelete = id => {
 		axios.delete(`/posts/${id}.json`).catch(error => console.log(error))
+		storage()
+			.ref()
+			.child('/' + id + '/images')
+			.listAll()
+			.then(res => {
+				res.items.forEach(item => {
+					item.delete().catch(error => console.log(error))
+				})
+			})
 	}
 
 	render() {
