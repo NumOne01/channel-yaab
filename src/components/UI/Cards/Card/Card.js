@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -7,6 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import classes from './Card.module.css'
+import { Link } from 'react-router-dom'
 
 export default function MediaCard(props) {
 	return (
@@ -31,29 +32,51 @@ export default function MediaCard(props) {
 				</CardContent>
 			</CardActionArea>
 			<CardActions>
-				<Button size="small" color="primary">
-					اشتراک گذاری
-				</Button>
-				{props.telegramLink && (
+				{!props.isEdit ? (
+					<Fragment>
+						<Button size="small" color="primary">
+							اشتراک گذاری
+						</Button>
+						{props.telegramLink && (
+							<Button size="small" color="primary">
+								<a
+									href={props.telegramLink}
+									target="_new"
+									style={{
+										color: 'inherit',
+										textDecoration: 'none'
+									}}
+								>
+									عضوشدن در تلگرام
+								</a>
+							</Button>
+						)}
+						{props.instagramLink && (
+							<Button size="small" color="primary">
+								<a
+									href={props.instagramLink}
+									target="_new"
+									style={{
+										color: 'inherit',
+										textDecoration: 'none'
+									}}
+								>
+									عضوشدن در اینستاگرام
+								</a>
+							</Button>
+						)}
+					</Fragment>
+				) : (
 					<Button size="small" color="primary">
-						<a
-							href={props.telegramLink}
-							target="_new"
-							style={{ color: 'inherit', textDecoration: 'none' }}
+						<Link
+							to={'/edit-post/' + props.id}
+							style={{
+								color: 'inherit',
+								textDecoration: 'none'
+							}}
 						>
-							عضوشدن در تلگرام
-						</a>
-					</Button>
-				)}
-				{props.instagramLink && (
-					<Button size="small" color="primary">
-						<a
-							href={props.instagramLink}
-							target="_new"
-							style={{ color: 'inherit', textDecoration: 'none' }}
-						>
-							عضوشدن در اینستاگرام
-						</a>
+							ویرایش
+						</Link>
 					</Button>
 				)}
 			</CardActions>

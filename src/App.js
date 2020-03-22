@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { authCheckState } from './store/actions/auth'
 import { Spinner } from './components/UI'
 import Post from './containers/Post/Post'
+import EditPost from './containers/EditPost/EditPost'
 
 const UserPorfile = lazy(() => import('./containers/UserPorfile/UserProfile'))
 const Login = lazy(() => import('./containers/SignIn/Signin'))
@@ -49,6 +50,7 @@ function App(props) {
 					/>
 				)}
 				<Route path="/post/:id" component={Post} />
+				<Route path="/edit-post/:id" component={EditPost} />
 				<Route exact path="/" component={MainPage} />
 				<Redirect to="/" />
 			</Switch>

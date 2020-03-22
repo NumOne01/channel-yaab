@@ -14,6 +14,8 @@ const Cards = props => {
 					clicked={() => props.clicked(item.key)}
 					telegramLink={item.telegramLink}
 					instagramLink={item.instagramLink}
+					isEdit={props.isEdit}
+					id={item.key}
 				/>
 			))}
 		</div>

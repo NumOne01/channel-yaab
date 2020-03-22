@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
 	TextField,
 	Button,
@@ -42,6 +42,20 @@ function NewPost(props) {
 	const [error, setError] = useState(null)
 	const [images, setImages] = useState({ images: [], mainImage: 0 })
 
+	useEffect(() => {
+		if (props.images) {
+			const images = []
+			let mainImage = 0
+			let index = 0
+			for (let image in props.images) {
+				if (image === 'index') mainImage = index
+				images.push(props.images[image].url)
+				index++
+			}
+			setImages({ images, mainImage })
+		}
+	}, [])
+
 	const submitPost = async event => {
 		event.preventDefault()
 		const taged = []
@@ -64,23 +78,26 @@ function NewPost(props) {
 		try {
 			const storageRef = storage().ref()
 			let id = null
-			const response = await axios.post(
-				'/posts.json?auth=' + props.token,
-				postData
-			)
+			const response = !props.isEdit
+				? await axios.post('/posts.json?auth=' + props.token, postData)
+				: await axios.patch(
+						`/posts/${props.id}.json?auth=` + props.token,
+						postData
+				  )
 			setLoading(false)
 			setError(null)
 			id = response.data.name
 			images.images.map(async (image, index) => {
-				const imageRef = storageRef.child(
-					`/${response.data.name}/images/${
-						images.mainImage === index ? 'index' : 'image' + index
-					}.jpg`
-				)
-				const answer = await imageRef.putString(image, 'data_url')
-				const url = await answer.ref.getDownloadURL()
+				let url
+				if (!image.startsWith('http')) {
+					const imageRef = storageRef.child(
+						`/${response.data.name}/images/${'image' + index}.jpg`
+					)
+					const answer = await imageRef.putString(image, 'data_url')
+					url = await answer.ref.getDownloadURL()
+				} else url = image
 				axios.patch(
-					`/posts/${id}/images/${
+					`/posts/${props.isEdit ? props.id : id}/images/${
 						images.mainImage === index ? 'index' : 'image' + index
 					}.json?auth=` + props.token,
 					{
@@ -122,6 +139,7 @@ function NewPost(props) {
 				inputRef={headingRef}
 				className={classes.Input}
 				required
+				defaultValue={props.heading}
 			/>
 			<TextField
 				id="explanation"
@@ -131,18 +149,21 @@ function NewPost(props) {
 				rows={3}
 				className={classes.Input}
 				required
+				defaultValue={props.body}
 			/>
 			<TextField
 				id="telegram"
 				label="لینک کانال یا گروه در تلگرام"
 				inputRef={telegramRef}
 				className={classes.Input}
+				defaultValue={props.telegramLink}
 			/>
 			<TextField
 				id="instagram"
 				label="لینک صفحه در اینستاگرام"
 				inputRef={instagramRef}
 				className={classes.Input}
+				defaultValue={props.instagramLink}
 			/>
 			<div className={classes.Input}>
 				<InputLabel htmlFor="images"> تصاویر </InputLabel>
@@ -211,22 +232,28 @@ function NewPost(props) {
 			</div>
 			<p>{error ? error.message : null}</p>
 			<div className={classes.Input}>
-				{tags.map(tag => (
-					<FormControlLabel
-						key={tag.label}
-						control={
-							<Checkbox
-								value={tag.value}
-								inputProps={{
-									'aria-label': 'Checkbox' + tag.label
-								}}
-								color="primary"
-								inputRef={tagsRef[tag.value]}
-							/>
-						}
-						label={tag.label}
-					/>
-				))}
+				{tags.map(tag => {
+					let checked = false
+					if (props.tags && props.tags.indexOf(tag.value) >= 0)
+						checked = true
+					return (
+						<FormControlLabel
+							key={tag.label}
+							control={
+								<Checkbox
+									value={tag.value}
+									inputProps={{
+										'aria-label': 'Checkbox' + tag.label
+									}}
+									color="primary"
+									inputRef={tagsRef[tag.value]}
+									defaultChecked={checked}
+								/>
+							}
+							label={tag.label}
+						/>
+					)
+				})}
 			</div>
 			{loading ? (
 				<Spinner />
@@ -237,7 +264,7 @@ function NewPost(props) {
 					style={{ marginTop: 16, marginBottom: 16 }}
 					type="submit"
 				>
-					ثبت
+					{props.isEdit ? 'ذخیره' : 'ثبت'}
 				</Button>
 			)}
 		</form>

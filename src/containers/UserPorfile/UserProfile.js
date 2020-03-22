@@ -36,7 +36,7 @@ class UserProfile extends Component {
 				) : (
 					<div className={classes.Container}>
 						<span>پست های ارسالی شما‌ :</span>
-						<Cards data={posts} />
+						<Cards data={posts} isEdit />
 					</div>
 				)}
 			</div>
