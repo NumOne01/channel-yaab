@@ -17,11 +17,11 @@ class EditProfile extends Component {
 		const { userId } = this.props
 		try {
 			database()
-				.ref('/posts/' + this.props.match.params.id)
+				.ref('posts/' + this.props.match.params.id)
 				.orderByChild('userId')
 				.equalTo(userId)
 				.once('value', snapshot => {
-					if (!snapshot.val() || snapshot.val().userId !== userId)
+					if (!snapshot.val())
 						this.setState({
 							loading: false,
 							error: "You can't edit this post"
