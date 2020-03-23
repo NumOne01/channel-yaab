@@ -40,6 +40,9 @@ class Post extends Component {
 				<div className={classes.Body}>
 					<h2>{post.heading}</h2>
 					<p>{post.body}</p>
+					{post.telegramMembers && (
+						<p dir="rtl">تعداد اعضا :‌ {post.telegramMembers}</p>
+					)}
 					{post.telegramLink && (
 						<Button color="primary">عضو شدن در تلگرام</Button>
 					)}

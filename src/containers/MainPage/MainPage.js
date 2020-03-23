@@ -17,10 +17,7 @@ const socialMediaTags = [
 	{ label: 'تلگرام', value: 'telegram' }
 ]
 
-// const sortingTags = [
-// 	{ label: 'پرطرفدارترین', value: 'portarafdar' },
-// 	{ label: 'جدیدترین', value: 'jadid' }
-// ]
+const sortingTags = [{ label: 'پرطرفدارترین', value: 'portarafdar' }]
 
 const labels = {
 	varzeshi: 'ورزشی',
@@ -36,7 +33,8 @@ const labels = {
 class MainPage extends Component {
 	state = {
 		posts: [],
-		filters: []
+		filters: [],
+		sorting: false
 	}
 
 	collectionsTag = [
@@ -69,7 +67,7 @@ class MainPage extends Component {
 
 	renderPosts = () => {
 		const { posts } = this.props
-		const { filters } = this.state
+		const { filters, sorting } = this.state
 		const updatedPosts =
 			filters.length > 0
 				? posts.filter(post =>
@@ -77,7 +75,11 @@ class MainPage extends Component {
 							filterName => post.tags.indexOf(filterName) >= 0
 						)
 				  )
-				: posts
+				: [...posts]
+		if (sorting)
+			updatedPosts.sort(
+				(a, b) => -(a.telegramMembers - b.telegramMembers)
+			)
 		return updatedPosts
 	}
 
@@ -123,23 +125,23 @@ class MainPage extends Component {
 						/>
 					</form>
 				)
+			},
+			{
+				heading: 'مرتب سازی بر اساس',
+				body: (
+					<form className={classes.checkBoxes}>
+						<CheckBoxes
+							data={sortingTags}
+							checked={this.state.sorting}
+							changed={() =>
+								this.setState(prevState => ({
+									sorting: !prevState.sorting
+								}))
+							}
+						/>
+					</form>
+				)
 			}
-			// {
-			// 	heading: 'مرتب سازی بر اساس',
-			// 	body: (
-			// 		<form className={classes.checkBoxes}>
-			// 			<CheckBoxes
-			// 				data={sortingTags}
-			// 				changed={event => {
-			// 					this.onChangeFilter(
-			// 						event.target.value,
-			// 						event.target.checked
-			// 					)
-			// 				}}
-			// 			/>
-			// 		</form>
-			// 	)
-			// }
 		]
 		return ExpansionData
 	}
