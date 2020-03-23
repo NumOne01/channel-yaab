@@ -28,6 +28,9 @@ export default function MediaCard(props) {
 						component="span"
 					>
 						{props.body}
+						{props.telegramMembers && (
+							<p dir="rtl">تعداد اعضا : {props.telegramMembers}</p>
+						)}
 					</Typography>
 				</CardContent>
 			</CardActionArea>

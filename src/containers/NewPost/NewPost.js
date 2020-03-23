@@ -71,8 +71,18 @@ function NewPost(props) {
 			tags: taged,
 			userId: props.userId
 		}
-		if (telegramRef.current.value)
+		if (telegramRef.current.value) {
+			let members = await fetch(
+				'https://corticolous-linens.000webhostapp.com/webservice/WebService.php?id=' +
+					telegramRef.current.value
+			).catch(error => console.log(error))
+			members = await members.json()
+			members = members.channel_member.split(' ')
+			members.pop()
+			members = members.join('')
+			postData.telegramMembers = members
 			postData.telegramLink = telegramRef.current.value
+		}
 		if (instagramRef.current.value)
 			postData.instagramLink = instagramRef.current.value
 		try {

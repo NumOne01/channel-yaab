@@ -13,6 +13,7 @@ const Cards = props => {
 					image={item.images && item.images.index.url}
 					clicked={() => props.clicked(item.key)}
 					telegramLink={item.telegramLink}
+					telegramMembers={item.telegramMembers}
 					instagramLink={item.instagramLink}
 					isEdit={props.isEdit}
 					id={item.key}
