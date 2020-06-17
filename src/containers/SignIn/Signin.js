@@ -15,6 +15,7 @@ import { login, signup } from '../../store/actions/auth'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import Spinner from '../../components/UI/Spinner/Spinner'
+import { Helmet } from 'react-helmet'
 
 function Copyright() {
 	return (
@@ -63,6 +64,9 @@ function SignIn(props) {
 		<Redirect to="/" />
 	) : (
 		<Container component="main" maxWidth="xs">
+			<Helmet>
+				<title>ورود</title>
+			</Helmet>
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />

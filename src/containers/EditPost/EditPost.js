@@ -5,6 +5,7 @@ import NewPost from '../NewPost/NewPost'
 import { Spinner } from '../../components/UI'
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
 import { database } from 'firebase'
+import { Helmet } from 'react-helmet'
 
 class EditProfile extends Component {
 	state = {
@@ -39,15 +40,22 @@ class EditProfile extends Component {
 	}
 	render() {
 		const { post, loading, error } = this.state
-		return loading ? (
-			<Spinner />
-		) : error ? null : (
-			<NewPost
-				{...post}
-				isEdit
-				{...this.props}
-				id={this.props.match.params.id}
-			/>
+		return (
+			<div>
+				<Helmet>
+					<title>ویرایش پست</title>
+				</Helmet>
+				{loading ? (
+					<Spinner />
+				) : error ? null : (
+					<NewPost
+						{...post}
+						isEdit
+						{...this.props}
+						id={this.props.match.params.id}
+					/>
+				)}
+			</div>
 		)
 	}
 }

@@ -15,6 +15,7 @@ import axios from '../../axios-posts'
 import { storage } from 'firebase/app'
 import Close from '@material-ui/icons/Close'
 import Check from '@material-ui/icons/Check'
+import { Helmet } from 'react-helmet'
 
 const tags = [
 	{ label: 'ورزشی', value: 'varzeshi' },
@@ -125,7 +126,7 @@ function NewPost(props) {
 	const readImage = event => {
 		const input = event.target
 		const reader = new FileReader()
-		reader.onload = function() {
+		reader.onload = function () {
 			const dataURL = reader.result
 			addImage(dataURL)
 		}
@@ -143,6 +144,9 @@ function NewPost(props) {
 			autoComplete="off"
 			onSubmit={submitPost}
 		>
+			<Helmet>
+				<title>پست جدید</title>
+			</Helmet>
 			<TextField
 				id="title"
 				label="عنوان"

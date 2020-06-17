@@ -4,6 +4,7 @@ import axios from '../../axios-posts'
 import { connect } from 'react-redux'
 import classes from './UserProfile.module.css'
 import { database, storage } from 'firebase'
+import { Helmet } from 'react-helmet'
 
 class UserProfile extends Component {
 	state = {
@@ -47,6 +48,9 @@ class UserProfile extends Component {
 		const { error, loading, posts } = this.state
 		return (
 			<div>
+				<Helmet>
+					<title>پروفایل</title>
+				</Helmet>
 				{loading ? (
 					<Spinner />
 				) : error ? (

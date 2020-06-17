@@ -11,6 +11,7 @@ import {
 import classes from './MainPage.module.css'
 import { connect } from 'react-redux'
 import { fetchPosts } from '../../store/actions/posts'
+import { Helmet } from 'react-helmet'
 
 const socialMediaTags = [
 	{ label: 'اینستاگرام', value: 'instagram' },
@@ -151,6 +152,9 @@ class MainPage extends Component {
 		const { filters } = this.state
 		return (
 			<div className={classes.MainPage}>
+				<Helmet>
+					<title>کانال یاب</title>
+				</Helmet>
 				<div className={classes.Container}>
 					<SearchBox />
 					<div className={classes.Filters}>
